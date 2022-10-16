@@ -5,7 +5,7 @@ import { authUser } from "../../services/auth";
 export default function AuthPage() {
   const { type } = useParams();
 
-  const [email, setEmail] = useSatae('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const authenticateUser = async () => {
@@ -13,7 +13,6 @@ export default function AuthPage() {
     setUser(userResponse);
     setEmail('');
     setPassword('');
-    <Redirect to='/' />;
   };
 
   if (user) {
