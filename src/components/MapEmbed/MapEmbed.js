@@ -1,3 +1,5 @@
 export default function MapEmbed() {
-  return <div>MapEmbed</div>;
+  return (
+    <iframe width="700px" height="500px"/>
+  );
 }
