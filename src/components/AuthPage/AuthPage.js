@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {Redirect, useParams, Link } from 'react-router-dom';
+import {Redirect, useParams, NavLink } from 'react-router-dom';
 import { authUser } from "../../services/auth";
 
 export default function AuthPage() {
@@ -32,8 +32,8 @@ export default function AuthPage() {
       </div>
     {
       type === 'sign-in' ?
-        <Link className='auth-link' to='/auth/sign-up'>sign-up</Link> :
-        <Link className='auth-link' to='/auth/sign-in'>sign-in</Link>
+        <NavLink className='auth-link' to='/auth/sign-up'>sign-up</NavLink> :
+        <NavLink className='auth-link' to='/auth/sign-in'>sign-in</NavLink>
     }
     <h1>Please sign-in to continue:</h1>
   </>;
