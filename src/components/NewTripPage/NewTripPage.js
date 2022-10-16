@@ -52,7 +52,7 @@ export default function NewTripPage() {
               <Input variant="flushed" placeholder="Paris, Texas" />
             </label>
           </InputGroup>
-          <Button onClick={handleSubmit}>Embark!</Button>
+          <Button onSubmit={handleSubmit}>Embark!</Button>
         </form>
       </Box>
     </div>
