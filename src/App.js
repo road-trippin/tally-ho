@@ -14,7 +14,7 @@ function App() {
         <Route path="/new-trip" component={NewTripPage} />
         <Route path="/trip/:id" component={TripPage} />
         <Route path="*">
-          <Redirect to="auth/sign-up" />
+          <Redirect to="/auth/sign-up" />
         </Route>
       </Switch>
     </div>
