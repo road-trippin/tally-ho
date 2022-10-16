@@ -3,7 +3,8 @@ import { checkError, client } from './client';
 export async function getAllTrips() {
   const response = await client
     .from('trips')
-    .select();
+    .select()
+    .order('created_at', { ascending: false });
   
   return checkError(response);
 }
