@@ -32,6 +32,12 @@ export default function AuthPage() {
       <div className="button-wrap">
         <button className="auth-button">{ type }</button>
       </div>
+{
+          type === 'sign-in' ?
+            <Link className='auth-link' to='/auth/sign-up'>sign-up</Link> :
+            <Link className='auth-link' to='/auth/sign-in'>sign-in</Link>
+        }
+
     </div>
   </>;
 }
