@@ -1,9 +1,8 @@
 import { SkeletonText } from '@chakra-ui/react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 export default function MapEmbed() {
-  // const [map, setMap] = useState(/** @type google.maps.Map */ (null));
 
   const center = { lat: 36.0544, lng: -112.1401 };
 
@@ -20,8 +19,8 @@ export default function MapEmbed() {
     <GoogleMap
       center={center}
       zoom={15}
-      mapContainerStyle={{ width: '500px', height: '500px' }}
-      // onLoad={(map) => setMap(map)}
+      mapContainerStyle={{ width: '85%', height: '700px' }}
+      options={{ streetViewControl: false, mapTypeControl: false, fullscreenControl: false }}
     ></GoogleMap>
   );
 }
