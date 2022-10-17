@@ -1,10 +1,46 @@
+import { Box, Button, Input, InputGroup } from '@chakra-ui/react';
+import './NewTripPage.css';
 import Header from '../Header/Header';
 
 export default function NewTripPage() {
-  return <div>
+  const handleSubmit = () => {
+    //functionality for processing New Trip Form info
+    //FormData.get
+    //setTrip
+  };
 
-    <Header />
-
-    <span>New Trip Page</span>
-  </div>;
+  return (
+    <div>
+      <Header />
+      <Box
+        display="flex"
+        alignItems="center"
+        flexDirection="column"
+        width={500}
+        boxShadow="md"
+        p="6"
+        rounded="md"
+        bg="white"
+      >
+        <h2>Start a New Trip!</h2>
+        <form className="new-trip-form">
+          <InputGroup display="flex" flex-direction="column">
+            <label>
+              Trip Name:
+              <Input variant="flushed" placeholder="Best Trip Ever!" />
+            </label>
+            <label>
+              Origin:
+              <Input variant="flushed" placeholder="Rome, Illinois" />
+            </label>
+            <label>
+              Destination:
+              <Input variant="flushed" placeholder="Paris, Texas" />
+            </label>
+          </InputGroup>
+          <Button onSubmit={handleSubmit}>Embark!</Button>
+        </form>
+      </Box>
+    </div>
+  );
 }
