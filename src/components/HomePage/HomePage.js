@@ -1,15 +1,19 @@
 import Header from '../Header/Header';
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Text } from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
+import { useUserContext } from '../../context/UserContext';
 import useTrips from '../../hooks/useTrips';
 
 export default function HomePage() {
+  const { user } = useUserContext();
   const { trips, loading } = useTrips();
   const history = useHistory();
 
   const handleEditTrip = (id) => {
     history.push(`/trip/${id}`);
   };
+
+  if (!user) return <Redirect to="/auth/sign-in" />;
 
   return <>
     <Header />
