@@ -7,14 +7,14 @@ import {
 } from '@react-google-maps/api';
 import { useState } from 'react';
 
-export default function MapEmbed({ origin, destination, waypoints }) {
+export default function MapEmbed({ origin, destination, waypoints, isLoaded }) {
   const [directionsResult, setDirectionsResult] = useState();
   console.log('waypoints', waypoints);
 
   // loads Google script
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-  });
+  // const { isLoaded } = useJsApiLoader({
+  //   googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+  // });
 
   const directionsCallback = (response) => {
     if (response && response.status === 'OK') {
