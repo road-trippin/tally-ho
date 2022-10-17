@@ -1,8 +1,8 @@
 import { SkeletonText } from '@chakra-ui/react';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-// import { useState } from 'react';
+import { DirectionsService, GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { useState } from 'react';
 
-export default function MapEmbed() {
+export default function MapEmbed({ origin, destination }) {
 
   const center = { lat: 36.0544, lng: -112.1401 };
 
@@ -21,6 +21,8 @@ export default function MapEmbed() {
       zoom={15}
       mapContainerStyle={{ width: '85%', height: '700px' }}
       options={{ streetViewControl: false, mapTypeControl: false, fullscreenControl: false }}
-    ></GoogleMap>
+    >
+      <DirectionsService options={{ destination, origin }} />
+    </GoogleMap>
   );
 }
