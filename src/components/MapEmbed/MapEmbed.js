@@ -1,9 +1,15 @@
 import { SkeletonText } from '@chakra-ui/react';
-import { DirectionsService, GoogleMap, useJsApiLoader, DirectionsRenderer } from '@react-google-maps/api';
+import {
+  DirectionsService,
+  GoogleMap,
+  useJsApiLoader,
+  DirectionsRenderer,
+} from '@react-google-maps/api';
 import { useState } from 'react';
 
-export default function MapEmbed({ origin, destination }) {
+export default function MapEmbed({ origin, destination, waypoints }) {
   const [directionsResult, setDirectionsResult] = useState();
+  console.log('waypoints', waypoints);
 
   // loads Google script
   const { isLoaded } = useJsApiLoader({
@@ -26,17 +32,18 @@ export default function MapEmbed({ origin, destination }) {
       mapContainerStyle={{ width: '85%', height: '700px' }}
       options={{ streetViewControl: false, mapTypeControl: false, fullscreenControl: false }}
     >
-      {origin && destination && !directionsResult &&
+      {origin && destination && waypoints && !directionsResult && (
         <DirectionsService
           callback={directionsCallback}
-          options={{ origin: { placeId: origin }, destination: { placeId: destination }, travelMode: 'DRIVING' }}
+          options={{
+            origin: { placeId: origin },
+            destination: { placeId: destination },
+            waypoints: waypoints.map((waypoint) => ({ location: { placeId: waypoint } })),
+            travelMode: 'DRIVING',
+          }}
         />
-      }
-      {directionsResult &&
-        <DirectionsRenderer
-          options={{ directions: directionsResult }}
-        />
-      }
+      )}
+      {directionsResult && <DirectionsRenderer options={{ directions: directionsResult }} />}
     </GoogleMap>
   );
 }
