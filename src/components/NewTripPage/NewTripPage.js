@@ -10,22 +10,9 @@ export default function NewTripPage() {
     //setTrip
   };
 
-  const handleSignOut = () => {
-    //functionality for signing out user
-  };
-
   return (
     <div>
       <Header />
-      <div className="left-header">
-        <NavLink to="/">Home</NavLink>
-      </div>
-      <div className="right-header">
-        <h3>UserName Here</h3>
-        <Button variant="link" onClick={handleSignOut}>
-          Sign Out
-        </Button>
-      </div>
       <Box
         display="flex"
         alignItems="center"
