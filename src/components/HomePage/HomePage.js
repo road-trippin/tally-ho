@@ -1,6 +1,6 @@
 import Header from '../Header/Header';
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Text } from '@chakra-ui/react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import useTrips from '../../hooks/useTrips';
 
@@ -17,7 +17,9 @@ export default function HomePage() {
 
   return <>
     <Header />
-    <Button marginY="20px">Create a New Trip</Button>
+    <Link to="/new-trip">
+      <Button marginY="20px">Create a New Trip</Button>
+    </Link>
     {loading
       ? <p>loading...</p>
       : <Box
