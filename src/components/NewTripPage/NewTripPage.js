@@ -1,6 +1,6 @@
 import { Box, Button, Input, InputGroup } from '@chakra-ui/react';
-import { Header } from '../Header/Header';
 import './NewTripPage.css';
+import Header from '../Header/Header';
 
 export default function NewTripPage() {
   const handleSubmit = () => {
