@@ -1,25 +1,9 @@
 import { Box, Button } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { getAllTrips } from '../../services/trips';
 import Header from '../Header/Header';
+import useTrips from '../../hooks/useTrips';
 
 export default function HomePage() {
-  const [trips, setTrips] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-    getAllTrips()
-      .then(trips => {
-        setTrips(trips);
-        setLoading(false);
-      })
-      .catch(error => {
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
-  }, []);
+  const { trips, loading } = useTrips();
 
   return <>
     <Header />
