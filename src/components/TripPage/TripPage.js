@@ -15,7 +15,6 @@ export default function TripPage() {
   const { isLoaded } = useGoogleScript();
 
   const handleAddWaypoint = () => {
-    console.log(waypointRef.current.value);
     // get placeID from waypointRef current value
     // push placeID to waypoints array in database for current trip
   };
