@@ -1,5 +1,4 @@
 import { Box, Button, Input, InputGroup } from '@chakra-ui/react';
-import { NavLink } from 'react-router-dom';
 import { Header } from '../Header/Header';
 import './NewTripPage.css';
 
