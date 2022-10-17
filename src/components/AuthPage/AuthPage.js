@@ -36,7 +36,6 @@ export default function AuthPage() {
             <Link className="sign-in" to='/auth/sign-up'>sign-up</Link> :
             <Link className="sign-up" to='/auth/sign-in'>sign-in</Link>
         }
-
       </div>
       <h1>Please sign-in to continue:</h1>
     </section>
