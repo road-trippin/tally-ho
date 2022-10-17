@@ -1,3 +1,10 @@
+import Header from '../Header/Header';
+
 export default function HomePage() {
-  return <div>HomePage</div>;
+  return <div>
+
+    <Header />
+
+    <span>HomePage</span>
+  </div>;
 }
