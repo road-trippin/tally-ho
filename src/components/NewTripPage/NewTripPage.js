@@ -1,5 +1,6 @@
 import { Box, Button, Input, InputGroup } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
+import { Header } from '../Header/Header';
 import './NewTripPage.css';
 
 export default function NewTripPage() {
@@ -15,17 +16,16 @@ export default function NewTripPage() {
 
   return (
     <div>
-      <header>
-        <div className="left-header">
-          <NavLink to="/">Home</NavLink>
-        </div>
-        <div className="right-header">
-          <h3>UserName Here</h3>
-          <Button variant="link" onClick={handleSignOut}>
-            Sign Out
-          </Button>
-        </div>
-      </header>
+      <Header />
+      <div className="left-header">
+        <NavLink to="/">Home</NavLink>
+      </div>
+      <div className="right-header">
+        <h3>UserName Here</h3>
+        <Button variant="link" onClick={handleSignOut}>
+          Sign Out
+        </Button>
+      </div>
       <Box
         display="flex"
         alignItems="center"
