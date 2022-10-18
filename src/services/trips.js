@@ -61,10 +61,30 @@ export async function deleteTrip(id) {
 }
 
 // waypoint functions
-export async function addWaypoint(tripId, waypointData) {
+export async function createWaypoint(tripId, waypointData) {
   const response = await client
     .from('waypoints')
     .insert({ waypointData, trip_id: tripId })
+    .single();
+
+  return checkError(response);
+}
+
+export async function deleteWaypoint(id) {
+  const response = await client
+    .from('waypoints')
+    .delete()
+    .match({ id })
+    .single();
+
+  return checkError(response);
+}
+
+export async function updateWaypoint(waypointData) {
+  const response = await client
+    .from('waypoints')
+    .update(waypointData)
+    .match({ id: waypointData.id })
     .single();
 
   return checkError(response);
