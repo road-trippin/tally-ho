@@ -1,13 +1,26 @@
-import { Box, Button, Input, InputGroup } from '@chakra-ui/react';
+import { Box, Button, Input, InputGroup, SkeletonText } from '@chakra-ui/react';
 import './NewTripPage.css';
 import Header from '../Header/Header';
+import { useUserContext } from '../../context/UserContext';
+import { useGoogleScript } from '../../context/GoogleScriptContext';
 
 export default function NewTripPage() {
-  const handleSubmit = () => {
-    //functionality for processing New Trip Form info
-    //FormData.get
-    //setTrip
-  };
+
+  const { user } = useUserContext();
+
+  const { isLoaded } = useGoogleScript();
+
+  if (!isLoaded) {
+    return <SkeletonText />;
+  }
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   functionality for processing New Trip Form info
+  //   FormData.get
+  //   setTrip
+  // };
 
   return (
     <div>
