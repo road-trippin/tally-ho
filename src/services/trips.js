@@ -30,10 +30,8 @@ export async function createTrip(tripData) {
     .from('trips')
     .insert(tripData)
     .single();
-
-  const trip = checkError(response);
-  trip.waypoints.sort((a, b) => a.position - b.position);
-  return trip;
+  
+  return checkError(response);
 }
 
 export async function updateTrip(tripData) {

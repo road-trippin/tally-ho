@@ -6,12 +6,14 @@ import { useGoogleScript } from '../../context/GoogleScriptContext';
 import { Autocomplete } from '@react-google-maps/api';
 import { Redirect } from 'react-router-dom';
 import { useRef, useState } from 'react';
+import { createTrip } from '../../services/trips';
 
 export default function NewTripPage() {
   const { user } = useUserContext();
   const { isLoaded } = useGoogleScript();
   const [origin, setOrigin] = useState({});
   const [destination, setDestination] = useState({});
+  const [title, setTitle] = useState('');
 
   const originRef = useRef();
   const destinationRef = useRef();
@@ -38,11 +40,13 @@ export default function NewTripPage() {
     return <SkeletonText />;
   }
 
-  const handleAddTrip = async (e) => {
-    e.preventDefault();
-    const newTrip = new FormData(e.target);
-    newTrip.set('trip-name', newTrip.get);
-    newTrip.set('trip-name', newTrip.get);
+  const handleAddTrip = async () => {
+    const newTrip = {
+      title,
+      user_id: user.id
+    };
+    const data = await createTrip(newTrip);
+    console.log(data);
     //   functionality for processing New Trip Form info
     // await createTrip({ ...newTrip, user_id: user.id });
     //set origin=0, destination=1
@@ -72,7 +76,7 @@ export default function NewTripPage() {
             <InputGroup display="flex" flex-direction="column">
               <label htmlFor="trip-name">
                 Trip Name:
-                <Input variant="flushed" placeholder="Best Trip Ever!" id="trip-name" />
+                <Input variant="flushed" placeholder="Best Trip Ever!" id="trip-name" value={ title } onChange={ (e) => setTitle(e.target.value) } />
               </label>
               <label htmlFor="origin">
                 Origin:
