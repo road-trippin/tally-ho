@@ -8,6 +8,16 @@ import { Autocomplete } from '@react-google-maps/api';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
 import { updateTrip } from '../../services/trips';
 
+//TODO:
+// make origin and destination rows in waypoints table
+// use new addWaypoint function in place of updateTrip on button click
+
+// add guards for valid place input
+// update waypoint components to actually display waypoint info
+
+
+
+
 export default function TripPage() {
   const { id } = useParams();
   const { trip, setTrip } = useTrip(id);

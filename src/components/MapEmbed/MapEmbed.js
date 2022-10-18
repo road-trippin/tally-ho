@@ -35,7 +35,7 @@ export default function MapEmbed({ origin, destination, waypoints }) {
           options={{
             origin: { placeId: origin },
             destination: { placeId: destination },
-            waypoints: waypoints.map((waypoint) => ({ location: { placeId: waypoint } })),
+            waypoints: waypoints.map((waypoint) => ({ location: { placeId: waypoint.place_id } })),
             travelMode: 'DRIVING',
           }}
         />
