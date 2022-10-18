@@ -59,7 +59,7 @@ export default function TripPage() {
         <label htmlFor="waypoint">
           Add a stop:
           {isLoaded && (
-            <Autocomplete fields={['place_id']} onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+            <Autocomplete fields={['place_id', 'name']} onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
               <input placeholder="New Stop..." id="waypoint" />
             </Autocomplete>
           )}
