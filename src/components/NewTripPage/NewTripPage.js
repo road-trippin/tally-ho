@@ -2,9 +2,9 @@ import {
   Box,
   Button,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Input,
-  InputGroup,
   SkeletonText,
 } from '@chakra-ui/react';
 import './NewTripPage.css';
@@ -19,8 +19,13 @@ import { createTrip, createWaypoint } from '../../services/trips';
 export default function NewTripPage() {
   const { user } = useUserContext();
   const { isLoaded } = useGoogleScript();
-  const [origin, setOrigin] = useState({});
-  const [destination, setDestination] = useState({});
+
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isOriginError, setIsOriginError] = useState(false);
+  const [isDestinationError, setIsDestinationError] = useState(false);
+
+  const [origin, setOrigin] = useState(null);
+  const [destination, setDestination] = useState(null);
   const [title, setTitle] = useState('');
 
   let history = useHistory();
@@ -50,13 +55,28 @@ export default function NewTripPage() {
   }
 
   const handleAddTrip = async () => {
-    if (title === '' || origin === {} || destination === {}) return;
+    let isFormInvalid = false;
+
+    if (title === '') {
+      setIsTitleError(true);
+      isFormInvalid = true;
+    }
+    if (origin === null) {
+      setIsOriginError(true);
+      isFormInvalid = true;
+    }
+    if (destination === null) {
+      setIsDestinationError(true);
+      isFormInvalid = true;
+    }
+    if (isFormInvalid) return;
 
     const newTrip = {
       title,
       user_id: user.id,
     };
     const trip = await createTrip(newTrip);
+
     const newOrigin = {
       user_id: user.id,
       place_id: origin.place_id,
@@ -91,9 +111,9 @@ export default function NewTripPage() {
         bg="white"
       >
         <h2>Start a New Trip!</h2>
-        <FormControl isRequired>
-          {isLoaded && (
-            <InputGroup display="flex" flex-direction="column">
+        {isLoaded && (
+          <Box>
+            <FormControl isRequired isInvalid={isTitleError}>
               <FormLabel htmlFor="trip-name" requiredIndicator>
                 Trip Name:
                 <Input
@@ -104,6 +124,11 @@ export default function NewTripPage() {
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </FormLabel>
+              {isTitleError && (
+                <FormErrorMessage>Your trip is missing a cool name!</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl isRequired isInvalid={isOriginError}>
               <FormLabel htmlFor="origin" requiredIndicator>
                 Origin:
                 <Autocomplete
@@ -116,6 +141,9 @@ export default function NewTripPage() {
                   <Input variant="flushed" placeholder="Rome, Illinois" id="origin" />
                 </Autocomplete>
               </FormLabel>
+              {isOriginError && <FormErrorMessage>Where you are starting....?</FormErrorMessage>}
+            </FormControl>
+            <FormControl isRequired isInvalid={isDestinationError}>
               <FormLabel htmlFor="destination" requiredIndicator>
                 Destination:
                 <Autocomplete
@@ -128,10 +156,11 @@ export default function NewTripPage() {
                   <Input variant="flushed" placeholder="Paris, Texas" id="destination" />
                 </Autocomplete>
               </FormLabel>
-            </InputGroup>
-          )}
-          <Button onClick={handleAddTrip}>Embark!</Button>
-        </FormControl>
+              {isDestinationError && <FormErrorMessage>Where are you headed...?</FormErrorMessage>}
+            </FormControl>
+            <Button onClick={handleAddTrip}>Embark!</Button>
+          </Box>
+        )}
       </Box>
     </div>
   );
