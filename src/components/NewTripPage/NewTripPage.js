@@ -64,7 +64,7 @@ export default function NewTripPage() {
     await createWaypoint(trip.id, newOrigin);
     await createWaypoint(trip.id, newDestination);
 
-    history.push(`/edit-trip/${trip.id}`);
+    history.push(`/trip/${trip.id}`);
   };
 
   return (
