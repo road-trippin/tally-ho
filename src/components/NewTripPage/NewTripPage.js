@@ -1,4 +1,12 @@
-import { Box, Button, Input, InputGroup, SkeletonText } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  SkeletonText,
+} from '@chakra-ui/react';
 import './NewTripPage.css';
 import Header from '../Header/Header';
 import { useUserContext } from '../../context/UserContext';
@@ -83,10 +91,10 @@ export default function NewTripPage() {
         bg="white"
       >
         <h2>Start a New Trip!</h2>
-        <Box>
+        <FormControl isRequired>
           {isLoaded && (
             <InputGroup display="flex" flex-direction="column">
-              <label htmlFor="trip-name">
+              <FormLabel htmlFor="trip-name" requiredIndicator>
                 Trip Name:
                 <Input
                   variant="flushed"
@@ -95,8 +103,8 @@ export default function NewTripPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
-              </label>
-              <label htmlFor="origin">
+              </FormLabel>
+              <FormLabel htmlFor="origin" requiredIndicator>
                 Origin:
                 <Autocomplete
                   fields={['place_id', 'name']}
@@ -107,8 +115,8 @@ export default function NewTripPage() {
                 >
                   <Input variant="flushed" placeholder="Rome, Illinois" id="origin" />
                 </Autocomplete>
-              </label>
-              <label htmlFor="destination">
+              </FormLabel>
+              <FormLabel htmlFor="destination" requiredIndicator>
                 Destination:
                 <Autocomplete
                   fields={['place_id', 'name']}
@@ -119,11 +127,11 @@ export default function NewTripPage() {
                 >
                   <Input variant="flushed" placeholder="Paris, Texas" id="destination" />
                 </Autocomplete>
-              </label>
+              </FormLabel>
             </InputGroup>
           )}
           <Button onClick={handleAddTrip}>Embark!</Button>
-        </Box>
+        </FormControl>
       </Box>
     </div>
   );
