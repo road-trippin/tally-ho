@@ -5,11 +5,32 @@ import { useUserContext } from '../../context/UserContext';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
 import { Autocomplete } from '@react-google-maps/api';
 import { Redirect } from 'react-router-dom';
-import { createTrip } from '../../services/trips';
+import { useRef } from 'react';
 
 export default function NewTripPage() {
   const { user } = useUserContext();
   const { isLoaded } = useGoogleScript();
+  // origin local state
+  // destination local state
+
+  const originRef = useRef();
+  const destinationRef = useRef();
+
+  const handleOriginChanged = () => {
+    const autocomplete = originRef.current;
+    if (autocomplete !== null) {
+      const { place_id, name } = autocomplete.getPlace();
+      //set some local state to pass to createTrip
+    }
+  };
+
+  const handleDestinationChanged = () => {
+    const autocomplete = destinationRef.current;
+    if (autocomplete !== null) {
+      const { place_id, name } = autocomplete.getPlace();
+      //set some local state to pass to createTrip
+    }
+  };
 
   if (!user) <Redirect to="/auth/sign-in" />;
 
@@ -17,18 +38,19 @@ export default function NewTripPage() {
     return <SkeletonText />;
   }
 
-  // TODO:
-  // finish Autocomplete fields & htmlfor=
-  // implement onPlaceChanged
-  // implement autocomplete onLoad
-  // finish handlesubmit
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newTrip = new FormData(e.target);
+    newTrip.set('trip-name', newTrip.get);
+    newTrip.set('trip-name', newTrip.get);
     //   functionality for processing New Trip Form info
-    await createTrip({ ...newTrip, user_id: user.id });
+    // await createTrip({ ...newTrip, user_id: user.id });
+    //set origin=0, destination=1
     //   reroute to trip page
+
+    // createTrip (userId, trip name)
+    //take trip returned from createTrip and insert it into waypoints
+    // createWaypoint (trip id, origin, destination)
   };
 
   return (
@@ -54,13 +76,25 @@ export default function NewTripPage() {
               </label>
               <label htmlFor="origin">
                 Origin:
-                <Autocomplete fields={['place_id', 'name']}>
+                <Autocomplete
+                  fields={['place_id', 'name']}
+                  onLoad={(autocomplete) => {
+                    originRef.current = autocomplete;
+                  }}
+                  onPlaceChanged={handleOriginChanged}
+                >
                   <Input variant="flushed" placeholder="Rome, Illinois" id="origin" />
                 </Autocomplete>
               </label>
               <label htmlFor="destination">
                 Destination:
-                <Autocomplete fields={['place_id', 'name']}>
+                <Autocomplete
+                  fields={['place_id', 'name']}
+                  onLoad={(autocomplete) => {
+                    destinationRef.current = autocomplete;
+                  }}
+                  onPlaceChanged={handleDestinationChanged}
+                >
                   <Input variant="flushed" placeholder="Paris, Texas" id="destination" />
                 </Autocomplete>
               </label>
