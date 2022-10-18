@@ -42,23 +42,25 @@ export default function NewTripPage() {
   }
 
   const handleAddTrip = async () => {
+    if (title === '' || origin === {} || destination === {}) return;
+
     const newTrip = {
       title,
-      user_id: user.id
+      user_id: user.id,
     };
     const trip = await createTrip(newTrip);
     const newOrigin = {
       user_id: user.id,
       place_id: origin.place_id,
       name: origin.name,
-      position: 0
+      position: 0,
     };
 
     const newDestination = {
       user_id: user.id,
       place_id: destination.place_id,
       name: destination.name,
-      position: 1
+      position: 1,
     };
 
     await createWaypoint(trip.id, newOrigin);
@@ -86,7 +88,13 @@ export default function NewTripPage() {
             <InputGroup display="flex" flex-direction="column">
               <label htmlFor="trip-name">
                 Trip Name:
-                <Input variant="flushed" placeholder="Best Trip Ever!" id="trip-name" value={ title } onChange={ (e) => setTitle(e.target.value) } />
+                <Input
+                  variant="flushed"
+                  placeholder="Best Trip Ever!"
+                  id="trip-name"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
               </label>
               <label htmlFor="origin">
                 Origin:
@@ -114,7 +122,7 @@ export default function NewTripPage() {
               </label>
             </InputGroup>
           )}
-          <Button onClick={ handleAddTrip }>Embark!</Button>
+          <Button onClick={handleAddTrip}>Embark!</Button>
         </Box>
       </Box>
     </div>
