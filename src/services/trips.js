@@ -30,7 +30,7 @@ export async function createTrip(tripData) {
     .from('trips')
     .insert(tripData)
     .single();
-
+    
   return checkError(response);
 }
 
