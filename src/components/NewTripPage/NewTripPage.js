@@ -4,9 +4,9 @@ import Header from '../Header/Header';
 import { useUserContext } from '../../context/UserContext';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
 import { Autocomplete } from '@react-google-maps/api';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { useRef, useState } from 'react';
-import { createTrip } from '../../services/trips';
+import { createTrip, createWaypoint } from '../../services/trips';
 
 export default function NewTripPage() {
   const { user } = useUserContext();
@@ -15,6 +15,7 @@ export default function NewTripPage() {
   const [destination, setDestination] = useState({});
   const [title, setTitle] = useState('');
 
+  let history = useHistory();
   const originRef = useRef();
   const destinationRef = useRef();
 
@@ -45,16 +46,25 @@ export default function NewTripPage() {
       title,
       user_id: user.id
     };
-    const data = await createTrip(newTrip);
-    console.log(data);
-    //   functionality for processing New Trip Form info
-    // await createTrip({ ...newTrip, user_id: user.id });
-    //set origin=0, destination=1
-    //   reroute to trip page
+    const trip = await createTrip(newTrip);
+    const newOrigin = {
+      user_id: user.id,
+      place_id: origin.place_id,
+      name: origin.name,
+      position: 0
+    };
 
-    // createTrip (userId, trip name)
-    //take trip returned from createTrip and insert it into waypoints
-    // createWaypoint (trip id, origin, destination)
+    const newDestination = {
+      user_id: user.id,
+      place_id: destination.place_id,
+      name: destination.name,
+      position: 1
+    };
+
+    await createWaypoint(trip.id, newOrigin);
+    await createWaypoint(trip.id, newDestination);
+
+    history.push(`/edit-trip/${trip.id}`);
   };
 
   return (
