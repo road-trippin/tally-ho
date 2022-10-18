@@ -46,7 +46,7 @@ export default function TripPage() {
     // refactor this functionality with new service
     const newWaypoints = [...trip.waypoints, placeId];
     const updatedTrip = await updateTrip({ ...trip, waypoints: newWaypoints });
-    console.log('updatedTrip', updatedTrip);
+    // console.log('updatedTrip', updatedTrip);
     setTrip(updatedTrip);
   };
 
