@@ -62,7 +62,7 @@ export default function TripPage() {
     <>
       <Header />
       <MapEmbed {...trip} />
-      {trip.waypoints && <WaypointList waypoints={trip.waypoints} />}
+      {trip.waypoints && <WaypointList waypoints={trip.waypoints} trip={trip} setTrip={setTrip} />}
       <form onSubmit={handleAddWaypoint}>
         <label htmlFor="waypoint">
           Add a stop:
