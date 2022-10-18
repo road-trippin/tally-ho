@@ -4,31 +4,21 @@ import { updateWaypoints } from '../../services/trips';
 
 export default function WaypointList({ waypoints, setTrip, trip }) {
 
-  const positionedWaypoints = waypoints.map(waypoint => ({ ...waypoint, listPosition: waypoints.indexOf(waypoint) }));
+  const positionedWaypoints = waypoints.map((waypoint, i) => ({ ...waypoint, position: i }));
 
   const onPosChange = async (currentPos, newPos) => {
-    positionedWaypoints[currentPos].listPosition = newPos;
+    positionedWaypoints[currentPos].position = newPos;
     if (newPos !== currentPos) {
       positionedWaypoints.forEach((waypoint, i) => {
         if (newPos > currentPos && i > currentPos && i <= newPos) {
-          waypoint.listPosition--;
+          waypoint.position--;
         }
         if (currentPos > newPos && i < currentPos && i >= newPos) {
-          waypoint.listPosition++;
+          waypoint.position++;
         }
       });
-      positionedWaypoints.sort((a, b) => a.listPosition - b.listPosition);
-      let reorderedWaypoints = positionedWaypoints.map((waypoint) => {
-        return {
-          id: waypoint.id,
-          place_id: waypoint.place_id,
-          name: waypoint.name,
-          trip_id: waypoint.trip_id,
-          user_id: waypoint.user_id,
-          position: waypoint.listPosition
-        };
-      });
-      const updatedWaypoints = await updateWaypoints(reorderedWaypoints);
+      positionedWaypoints.sort((a, b) => a.position - b.position);
+      const updatedWaypoints = await updateWaypoints(positionedWaypoints);
       setTrip({ ...trip, waypoints: updatedWaypoints });
     }
   };
