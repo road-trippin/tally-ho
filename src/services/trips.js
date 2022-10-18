@@ -48,6 +48,19 @@ export async function updateTrip(tripData) {
   return trip;
 }
 
+export async function updateWaypoints(waypoints) {
+  waypoints.forEach((waypoint, i) => {
+    waypoint.position = i;
+  });
+
+  const response = await client
+    .from('waypoints')
+    .upsert(waypoints, { ignoreDuplicates: false, onConflict: 'id' })
+    .order('position');
+
+  return checkError(response);
+}
+
 export async function deleteTrip(id) {
   const response = await client
     .from('trips')
