@@ -5,6 +5,12 @@ import { useGoogleScript } from '../../context/GoogleScriptContext';
 
 export default function MapEmbed({ waypoints }) {
   const [directionsResult, setDirectionsResult] = useState();
+  const [prevWaypoints, setPrevWaypoints] = useState();
+
+  if (waypoints !== prevWaypoints) {
+    setPrevWaypoints(waypoints);
+    setDirectionsResult();
+  }
 
   // loads Google script
   const { isLoaded } = useGoogleScript();

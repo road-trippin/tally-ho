@@ -77,7 +77,7 @@ export async function deleteTrip(id) {
 export async function createWaypoint(tripId, waypointData) {
   const response = await client
     .from('waypoints')
-    .insert({ waypointData, trip_id: tripId })
+    .insert({ ...waypointData, trip_id: tripId })
     .single();
 
   return checkError(response);
