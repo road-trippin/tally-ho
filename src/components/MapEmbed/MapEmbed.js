@@ -1,51 +1,58 @@
 import { SkeletonText } from '@chakra-ui/react';
-import { DirectionsService, GoogleMap, DirectionsRenderer } from '@react-google-maps/api';
-import { useState } from 'react';
+import { DirectionsService, GoogleMap } from '@react-google-maps/api';
+import { useRef, useState } from 'react';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
 
+const mapContainerStyle = { width: '85%', height: '700px' };
+const mapOptions = { streetViewControl: false, mapTypeControl: false, fullscreenControl: false };
+
 export default function MapEmbed({ waypoints }) {
-  const [directionsResult, setDirectionsResult] = useState();
-  const [prevWaypoints, setPrevWaypoints] = useState();
+  const [shouldLoadDirections, setShouldLoadDirections] = useState(true);
+  const [prevWaypoints, setPrevWaypoints] = useState(waypoints);
+  const { isLoaded } = useGoogleScript();
+  const mapRef = useRef();
+  const directionsRendererRef = useRef();
 
   if (waypoints !== prevWaypoints) {
     setPrevWaypoints(waypoints);
-    setDirectionsResult();
+    setShouldLoadDirections(true);
   }
 
-  // loads Google script
-  const { isLoaded } = useGoogleScript();
-
-  const directionsCallback = (response) => {
+  const directionsResultCallback = (response) => {
     if (response && response.status === 'OK') {
-      setDirectionsResult(response);
+      setShouldLoadDirections(false);
+
+      // Unbind previous direction renderer from map so it doesn't continue displaying an old route.
+      directionsRendererRef.current?.setMap(null);
+
+      // Create a new directions renderer with the new route
+      // eslint-disable-next-line no-undef
+      directionsRendererRef.current = new google.maps.DirectionsRenderer({
+        directions: response,
+        map: mapRef.current
+      });
     }
   };
 
-  if (!isLoaded) {
-    return <SkeletonText />;
-  }
-
+  if (!isLoaded) return <SkeletonText />;
   return (
     <GoogleMap
-      zoom={15}
-      mapContainerStyle={{ width: '85%', height: '700px' }}
-      options={{ streetViewControl: false, mapTypeControl: false, fullscreenControl: false }}
+      mapContainerStyle={mapContainerStyle}
+      options={mapOptions}
+      onLoad={map => mapRef.current = map}
     >
-      {waypoints && waypoints.length >= 2 && !directionsResult && (
+      {waypoints && waypoints.length >= 2 && shouldLoadDirections && (
         <DirectionsService
-          callback={directionsCallback}
+          callback={directionsResultCallback}
           options={{
+            // NOTE: we are assuming the waypoints are in sorted order.
             origin: { placeId: waypoints[0].place_id },
             destination: { placeId: waypoints[waypoints.length - 1].place_id },
-            //sort waypoints by position before mapping (in service)
-            waypoints: waypoints
-              .slice(1, -1)
-              .map((waypoint) => ({ location: { placeId: waypoint.place_id } })),
+            waypoints: waypoints.slice(1, -1).map((waypoint) => ({ location: { placeId: waypoint.place_id } })),
             travelMode: 'DRIVING',
           }}
         />
       )}
-      {directionsResult && <DirectionsRenderer options={{ directions: directionsResult }} />}
     </GoogleMap>
   );
 }

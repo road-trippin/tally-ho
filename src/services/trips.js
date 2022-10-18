@@ -3,7 +3,7 @@ import { checkError, client } from './client';
 export async function getAllTrips() {
   const response = await client
     .from('trips')
-    .select()
+    .select('*, waypoints(*)')
     .order('created_at', { ascending: false });
 
   const trips = checkError(response);
@@ -30,7 +30,7 @@ export async function createTrip(tripData) {
     .from('trips')
     .insert(tripData)
     .single();
-  
+    
   return checkError(response);
 }
 
@@ -41,9 +41,7 @@ export async function updateTrip(tripData) {
     .match({ id: tripData.id })
     .single();
 
-  const trip = checkError(response);
-  trip.waypoints.sort((a, b) => a.position - b.position);
-  return trip;
+  return checkError(response);
 }
 
 export async function updateWaypoints(waypoints) {
