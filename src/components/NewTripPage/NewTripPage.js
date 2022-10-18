@@ -5,13 +5,13 @@ import { useUserContext } from '../../context/UserContext';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
 import { Autocomplete } from '@react-google-maps/api';
 import { Redirect } from 'react-router-dom';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export default function NewTripPage() {
   const { user } = useUserContext();
   const { isLoaded } = useGoogleScript();
-  // origin local state
-  // destination local state
+  const [origin, setOrigin] = useState({});
+  const [destination, setDestination] = useState({});
 
   const originRef = useRef();
   const destinationRef = useRef();
@@ -20,7 +20,7 @@ export default function NewTripPage() {
     const autocomplete = originRef.current;
     if (autocomplete !== null) {
       const { place_id, name } = autocomplete.getPlace();
-      //set some local state to pass to createTrip
+      setOrigin({ place_id, name });
     }
   };
 
@@ -28,7 +28,7 @@ export default function NewTripPage() {
     const autocomplete = destinationRef.current;
     if (autocomplete !== null) {
       const { place_id, name } = autocomplete.getPlace();
-      //set some local state to pass to createTrip
+      setDestination({ place_id, name });
     }
   };
 
@@ -38,7 +38,7 @@ export default function NewTripPage() {
     return <SkeletonText />;
   }
 
-  const handleSubmit = async (e) => {
+  const handleAddTrip = async (e) => {
     e.preventDefault();
     const newTrip = new FormData(e.target);
     newTrip.set('trip-name', newTrip.get);
@@ -67,7 +67,7 @@ export default function NewTripPage() {
         bg="white"
       >
         <h2>Start a New Trip!</h2>
-        <form className="new-trip-form" onSubmit={handleSubmit}>
+        <Box>
           {isLoaded && (
             <InputGroup display="flex" flex-direction="column">
               <label htmlFor="trip-name">
@@ -100,8 +100,8 @@ export default function NewTripPage() {
               </label>
             </InputGroup>
           )}
-          <Button>Embark!</Button>
-        </form>
+          <Button onClick={ handleAddTrip }>Embark!</Button>
+        </Box>
       </Box>
     </div>
   );
