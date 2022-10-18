@@ -26,7 +26,7 @@ export default function WaypointList({ waypoints, setTrip, trip }) {
     <div>
       <Draggable onPosChange={onPosChange} key={waypoints}>
         {waypoints.map((waypoint) => (
-          <Waypoint key={waypoint.id} {...waypoint} />
+          <Waypoint key={waypoint.id} {...waypoint} trip={trip} setTrip={setTrip} />
         ))}
       </Draggable>
     </div>
