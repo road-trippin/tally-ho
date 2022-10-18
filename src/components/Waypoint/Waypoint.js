@@ -1,3 +1,9 @@
-export default function Waypoint() {
-  return <div>Waypoint</div>;
+import './Waypoint.css';
+
+export default function Waypoint({ name }) {
+  return (
+    <div className="waypoint">
+      {name}
+    </div>
+  );
 }
