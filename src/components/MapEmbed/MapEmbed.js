@@ -1,13 +1,9 @@
 import { SkeletonText } from '@chakra-ui/react';
-import {
-  DirectionsService,
-  GoogleMap,
-  DirectionsRenderer,
-} from '@react-google-maps/api';
+import { DirectionsService, GoogleMap, DirectionsRenderer } from '@react-google-maps/api';
 import { useState } from 'react';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
 
-export default function MapEmbed({ origin, destination, waypoints }) {
+export default function MapEmbed({ waypoints }) {
   const [directionsResult, setDirectionsResult] = useState();
 
   // loads Google script
@@ -29,13 +25,16 @@ export default function MapEmbed({ origin, destination, waypoints }) {
       mapContainerStyle={{ width: '85%', height: '700px' }}
       options={{ streetViewControl: false, mapTypeControl: false, fullscreenControl: false }}
     >
-      {origin && destination && waypoints && !directionsResult && (
+      {waypoints && waypoints.length >= 2 && !directionsResult && (
         <DirectionsService
           callback={directionsCallback}
           options={{
-            origin: { placeId: origin },
-            destination: { placeId: destination },
-            waypoints: waypoints.map((waypoint) => ({ location: { placeId: waypoint } })),
+            origin: { placeId: waypoints[0].place_id },
+            destination: { placeId: waypoints[waypoints.length - 1].place_id },
+            //sort waypoints by position before mapping (in service)
+            waypoints: waypoints
+              .slice(1, -1)
+              .map((waypoint) => ({ location: { placeId: waypoint.place_id } })),
             travelMode: 'DRIVING',
           }}
         />
