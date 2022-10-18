@@ -15,9 +15,6 @@ import { updateTrip } from '../../services/trips';
 // add guards for valid place input
 // update waypoint components to actually display waypoint info
 
-
-
-
 export default function TripPage() {
   const { id } = useParams();
   const { trip, setTrip } = useTrip(id);
@@ -40,14 +37,17 @@ export default function TripPage() {
 
   const { isLoaded } = useGoogleScript();
 
+  //new waypoint is between most recently added waypoint & last waypoint in array
+
   const handleAddWaypoint = async (e) => {
     e.preventDefault();
-    // get placeID from waypointRef current value
+    // determine position for newWaypoint (average)
+    // addWaypoint includes new position
+    // refactor this functionality with new service
     const newWaypoints = [...trip.waypoints, placeId];
     const updatedTrip = await updateTrip({ ...trip, waypoints: newWaypoints });
     console.log('updatedTrip', updatedTrip);
     setTrip(updatedTrip);
-    // push placeID to waypoints array in database for current trip
   };
 
   return (

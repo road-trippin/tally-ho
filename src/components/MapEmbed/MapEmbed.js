@@ -31,6 +31,7 @@ export default function MapEmbed({ waypoints }) {
           options={{
             origin: { placeId: waypoints[0].place_id },
             destination: { placeId: waypoints[waypoints.length - 1].place_id },
+            //sort waypoints by position before mapping (in service)
             waypoints: waypoints
               .slice(1, -1)
               .map((waypoint) => ({ location: { placeId: waypoint.place_id } })),

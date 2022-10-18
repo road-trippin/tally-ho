@@ -11,7 +11,8 @@ export async function getTripById(id) {
     .from('trips')
     .select('*, waypoints(*)')
     .match({ id })
-    .single();
+    .single()
+    .order('position', { foreignTable: 'waypoints' });
 
   return checkError(response);
 }
@@ -40,6 +41,6 @@ export async function addWaypoint(tripId, waypointData) {
     .from('waypoints')
     .insert({ waypointData, trip_id: tripId })
     .single();
-  
+
   return checkError(response);
 }
