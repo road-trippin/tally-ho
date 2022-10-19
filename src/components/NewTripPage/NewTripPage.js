@@ -120,14 +120,13 @@ export default function NewTripPage() {
           </Box>
           <Box
             width={500}
-            boxShadow="md"
+            boxShadow="dark-lg"
             p="6"
-            rounded="lg"
+            rounded="xl"
             bg="white"
             zIndex="1"
             mr="200px"
             padding="40px"
-            borderRadius="10%"
           >
             <Heading as="h1" size="lg" fontWeight="bold" color="#006D77" mb="20px">
               Start a New Trip!
@@ -143,14 +142,14 @@ export default function NewTripPage() {
                   fontWeight="bold"
                 >
                   Trip Name:
-                  <Input
-                    variant="flushed"
-                    placeholder="Best Trip Ever!"
-                    id="trip-name"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
                 </FormLabel>
+                <Input
+                  variant="outline"
+                  placeholder="Best Trip Ever!"
+                  id="trip-name"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
                 {isTitleError && (
                   <FormErrorMessage>Your trip is missing a cool name!</FormErrorMessage>
                 )}
@@ -165,16 +164,16 @@ export default function NewTripPage() {
                   fontWeight="bold"
                 >
                   Origin:
-                  <Autocomplete
-                    fields={['place_id', 'name']}
-                    onLoad={(autocomplete) => {
-                      originRef.current = autocomplete;
-                    }}
-                    onPlaceChanged={handleOriginChanged}
-                  >
-                    <Input variant="flushed" placeholder="Rome, Illinois" id="origin" />
-                  </Autocomplete>
                 </FormLabel>
+                <Autocomplete
+                  fields={['place_id', 'name']}
+                  onLoad={(autocomplete) => {
+                    originRef.current = autocomplete;
+                  }}
+                  onPlaceChanged={handleOriginChanged}
+                >
+                  <Input variant="outline" placeholder="Rome, Illinois" id="origin" />
+                </Autocomplete>
                 {isOriginError && <FormErrorMessage>Where you are starting....?</FormErrorMessage>}
               </FormControl>
               <FormControl isRequired isInvalid={isDestinationError}>
@@ -187,16 +186,16 @@ export default function NewTripPage() {
                   fontWeight="bold"
                 >
                   Destination:
-                  <Autocomplete
-                    fields={['place_id', 'name']}
-                    onLoad={(autocomplete) => {
-                      destinationRef.current = autocomplete;
-                    }}
-                    onPlaceChanged={handleDestinationChanged}
-                  >
-                    <Input variant="flushed" placeholder="Paris, Texas" id="destination" />
-                  </Autocomplete>
                 </FormLabel>
+                <Autocomplete
+                  fields={['place_id', 'name']}
+                  onLoad={(autocomplete) => {
+                    destinationRef.current = autocomplete;
+                  }}
+                  onPlaceChanged={handleDestinationChanged}
+                >
+                  <Input variant="outline" placeholder="Paris, Texas" id="destination" />
+                </Autocomplete>
                 {isDestinationError && (
                   <FormErrorMessage>Where are you headed...?</FormErrorMessage>
                 )}
