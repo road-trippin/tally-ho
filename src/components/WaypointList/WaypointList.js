@@ -6,8 +6,7 @@ import { useState } from 'react';
 export default function WaypointList({ waypoints, setTrip, trip, legs }) {
 
   const [totalDistance, setTotalDistance] = useState('');
-  // const [totalHours, setTotalHours] = useState(0);
-  // const [totalMinutes, setTotalMinutes] 
+  const [totalTime, setTotalTime] = useState('');
   const [prevLegs, setPrevLegs] = useState([]);
 
   const positionedWaypoints = waypoints.map((waypoint, i) => ({ ...waypoint, position: i }));
@@ -38,9 +37,26 @@ export default function WaypointList({ waypoints, setTrip, trip, legs }) {
     return `${stringifiedMiles} mi`;
   };
 
+  const getTotalTime = () => {
+    const times = legs.reduce((a, b) => {
+      a.push(b.duration.text);
+      return a;
+    }, []);
+    let hours = times.map(t => Number(t.split(' ')[0]))
+      .reduce((a, b) => a + b, 0);
+    let minutes = times.map(t => Number(t.split(' ')[2]))
+      .reduce((a, b) => a + b, 0);
+
+    hours += Math.floor(minutes / 60);
+    minutes %= 60;
+    
+    return `${hours} hrs ${minutes} mins`;
+  };
+
   if (legs !== prevLegs) {
     setPrevLegs(legs);
     setTotalDistance(getTotalDistance());
+    setTotalTime(getTotalTime());
   }
 
   const onPosChange = async (currentPos, newPos) => {
@@ -68,7 +84,8 @@ export default function WaypointList({ waypoints, setTrip, trip, legs }) {
           <Waypoint key={waypoint.id} {...waypoint} trip={trip} setTrip={setTrip} leg={i < legs.length ? legs[i] : null} />
         ))}
       </Draggable>
-      <span className="total-distance">{totalDistance}</span>
+      <p>{totalDistance}</p>
+      <p>{totalTime}</p>
     </div>
   );
 }
