@@ -1,13 +1,30 @@
-import { Box, Flex, Menu, Text } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import { signOut } from '../../services/auth';
 import './Header.css';
+import {
+  Box,
+  Flex,
+  Text,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider
+} from '@chakra-ui/react';
 
 export default function Header() {
+
   const { user, setUser } = useUserContext();
+
+  const firstName =
+    user?.email.split('@')[0].charAt(0).toUpperCase() + user?.email.split('@')[0].slice(1);
+
 
   const handleSignOut = async () => {
     await signOut();
@@ -27,9 +44,17 @@ export default function Header() {
           <Text fontSize="3xl" fontWeight="bold">Tally Ho!</Text>
         </Link>
         { user && (
+
           <Menu>
-            <HamburgerIcon w={8} h={8}></HamburgerIcon>
+            <MenuButton>
+              <HamburgerIcon w={8} h={8}></HamburgerIcon>
+            </MenuButton>
+            <MenuList color="teal">
+              <MenuItem>{`You are signed in as ${firstName}`}</MenuItem>
+              <MenuItem onClick={ handleSignOut }>Sign Out</MenuItem>
+            </MenuList>
           </Menu>
+
         )}
       </Flex>
     </header>
