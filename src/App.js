@@ -1,5 +1,6 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
+import AboutPage from './components/AboutPage/AboutPage';
 import AuthPage from './components/AuthPage/AuthPage';
 import HomePage from './components/HomePage/HomePage';
 import NewTripPage from './components/NewTripPage/NewTripPage';
@@ -12,7 +13,8 @@ function App() {
         <Route path="/auth/:type" component={AuthPage} />
         <Route exact path="/" component={HomePage} />
         <Route path="/new-trip" component={NewTripPage} />
-        <Route path="/trip/:id" component={TripPage} />
+        <Route path="/trip/:id" component={ TripPage } />
+        <Route path="/about" component={ AboutPage } />
         <Route path="*">
           <Redirect to="/auth/sign-up" />
         </Route>
