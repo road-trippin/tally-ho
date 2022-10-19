@@ -21,6 +21,7 @@ import { Redirect, useHistory } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { createTrip, createWaypoint } from '../../services/trips';
 import newVan from '../../newVan.jpg';
+import 'animate.css';
 
 export default function NewTripPage() {
   const { user } = useUserContext();
@@ -115,6 +116,9 @@ export default function NewTripPage() {
           h="100%"
           w="100%"
           wrap="no-wrap"
+          backgroundImage={newVan}
+          backgroundPosition="bottom-left"
+          backgroundSize="cover"
         >
           <Box position="absolute" left={0} top={0} h="100%" w="100%">
             <Image src={newVan}></Image>
@@ -128,6 +132,7 @@ export default function NewTripPage() {
             zIndex="1"
             mr="200px"
             padding="40px"
+            className="animate__animated animate__fadeInDownBig"
           >
             <Heading as="h1" size="lg" fontWeight="bold" color="#006D77" mb="20px">
               Start a New Trip!
