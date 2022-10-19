@@ -7,7 +7,6 @@ import {
   FormHelperText,
   FormLabel,
   Heading,
-  Image,
   Input,
   SkeletonText,
   Stack,
