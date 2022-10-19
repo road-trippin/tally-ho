@@ -8,13 +8,7 @@ import { Autocomplete } from '@react-google-maps/api';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
 import { createWaypoint, updateWaypoints } from '../../services/trips';
 import { useUserContext } from '../../context/UserContext';
-
-//TODO:
-// make origin and destination rows in waypoints table
-// use new addWaypoint function in place of updateTrip on button click
-
-// add guards for valid place input
-// update waypoint components to actually display waypoint info
+import TripNotes from '../TripNotes/TripNotes';
 
 export default function TripPage() {
   const { id } = useParams();
@@ -42,8 +36,6 @@ export default function TripPage() {
 
   const { isLoaded } = useGoogleScript();
 
-  //new waypoint is between most recently added waypoint & last waypoint in array
-
   const handleAddWaypoint = async (e) => {
     e.preventDefault();
     const newWaypoint = await createWaypoint(trip.id, {
@@ -63,6 +55,7 @@ export default function TripPage() {
     <>
       <Header />
       <MapEmbed {...trip} setLegs={setLegs} />
+      <TripNotes trip={trip} setTrip={setTrip}/>
       {trip.waypoints && legs && <WaypointList waypoints={trip.waypoints} trip={trip} setTrip={setTrip} legs={legs} />}
       <form onSubmit={handleAddWaypoint}>
         <label htmlFor="waypoint">
