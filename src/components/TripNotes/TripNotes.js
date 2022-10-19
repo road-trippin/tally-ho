@@ -1,27 +1,26 @@
 import { Box, Button, Textarea } from '@chakra-ui/react';
 import { useState } from 'react';
-import { useTrip } from '../../hooks/useTrip';
 import { updateTrip } from '../../services/trips';
 
-export default function TripNotes({ id, setTrip }) {
+export default function TripNotes({ trip, setTrip }) {
   const [isEditing, setIsEditing] = useState(false);
-  const { tripNotes, setTripNotes } = useTrip(id);
+  const [tripNotes, setTripNotes] = useState('');
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsEditing(false);
-    const updatedTrip = updateTrip({ id, notes: tripNotes });
-    setTrip(updatedTrip);
+    await updateTrip({ id: trip.id, notes: tripNotes });
+    setTrip({ ...trip, notes: tripNotes });
   };
 
   return (
     <Box>
       <Textarea
         isDisabled={!isEditing}
-        defaultValue={tripNotes}
+        defaultValue={trip.notes}
         onChange={(e) => setTripNotes(e.target.value)}
       />
       <Button onClick={isEditing ? handleSave : handleEdit}>{isEditing ? 'Save' : 'Edit'}</Button>
