@@ -1,7 +1,6 @@
 import React from 'react';
 import { useUserContext } from '../../context/UserContext';
 import { signOut } from '../../services/auth';
-import { Redirect } from 'react-router-dom';
 import './Header.css';
 
 export default function Header() {
@@ -11,7 +10,7 @@ export default function Header() {
     await signOut();
     setUser(null);
   };
-  if (!user) return <Redirect to="/auth/sign-in" />;
+
   return (
     <header>
       <h2><a href="/" className="logo-link">Tally Ho!</a></h2>
