@@ -11,7 +11,6 @@ import {
   Heading,
   Image,
   Stack,
-  Text,
 } from '@chakra-ui/react';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
@@ -19,6 +18,7 @@ import useTrips from '../../hooks/useTrips';
 import { deleteTrip, deleteTripWaypoints } from '../../services/trips';
 import { useState } from 'react';
 import homeVan from '../../homeVan.jpg';
+import 'animate.css';
 
 export default function HomePage() {
   const { user } = useUserContext();
@@ -68,6 +68,7 @@ export default function HomePage() {
               align={['center', 'center', 'flex-start', 'flex-start']}
             >
               <Heading
+                className="animate__animated animate__lightSpeedInLeft"
                 as="h1"
                 size="xl"
                 fontWeight="bold"
