@@ -64,41 +64,44 @@ export default function AuthPage() {
           marginTop='75px'
           width='80%'
           maxWidth='450px'
-          boxShadow='xl'
+          boxShadow='dark-lg'
           padding='20px'
           rounded='xl'
         >
-          <Text fontSize='3xl' marginBottom='30px'>
+          <Text color='#006D77' fontSize='3xl' marginBottom='15px'>
             {`Please ${presentableAuthMethod.toLocaleLowerCase()} to continue.`}
           </Text>
           <Flex direction='column' alignItems='center' gap='5px'>
-            <Text color='red'>{error ? error + '.' : '\u00A0'}</Text>
+            <Text color='red' visibility={error ? 'visible' : 'hidden'}>{String(error)}</Text>
             <FormControl isInvalid={emailInvalid}>
-              <FormLabel>Email</FormLabel>
+              <FormLabel color='#FD9834'>Email</FormLabel>
               <Input
+                placeholder='name@example.com'
                 ref={emailInputRef}
                 type="email"
                 onKeyUp={(e) => e.key === 'Enter' && handleSubmit()}
               />
               {emailInvalid
                 ? <FormErrorMessage>Please enter a valid email address.</FormErrorMessage>
-                : <FormHelperText>&nbsp;</FormHelperText>}
+                : <FormHelperText visibility='hidden'>&nbsp;</FormHelperText>}
             </FormControl>
             <FormControl isInvalid={passwordInvalid}>
-              <FormLabel>Password</FormLabel>
+              <FormLabel color='#FD9834'>Password</FormLabel>
               <Input
+                placeholder='•••••••••'
                 ref={passwordInputRef}
                 type="password"
                 onKeyUp={(e) => e.key === 'Enter' && handleSubmit()}
               />
               {passwordInvalid
                 ? <FormErrorMessage>Password is required.</FormErrorMessage>
-                : <FormHelperText>&nbsp;</FormHelperText>}
+                : <FormHelperText visibility='hidden'>&nbsp;</FormHelperText>}
             </FormControl>
             <Button
-              marginY='20px'
+              marginBottom='20px'
               onClick={handleSubmit}
               alignSelf="end"
+              colorScheme='teal'
             >
               {presentableAuthMethod}
             </Button>
