@@ -71,7 +71,7 @@ export default function HomePage() {
                 as="h1"
                 size="xl"
                 fontWeight="bold"
-                color="primary.800"
+                color="#006D77"
                 textAlign={['center', 'center', 'left', 'left']}
               >
                 Time to Hit the Road!
@@ -79,7 +79,7 @@ export default function HomePage() {
               <Heading
                 as="h2"
                 size="md"
-                color="primary.800"
+                color="#FD9834"
                 opacity="0.8"
                 fontWeight="normal"
                 lineHeight={1.5}
@@ -109,7 +109,7 @@ export default function HomePage() {
               </Box>
               <span>{deleteMessage}</span>
               <Link to="/new-trip">
-                <Button variant="solid" shadow="2xl" colorScheme="teal" marginY="20px" size="lg">
+                <Button variant="ghost" shadow="2xl" colorScheme="cyan" marginY="20px" size="lg">
                   Create a New Trip
                 </Button>
               </Link>
