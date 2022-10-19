@@ -4,6 +4,7 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Heading,
   Image,
@@ -103,7 +104,7 @@ export default function NewTripPage() {
   };
 
   return (
-    <div>
+    <>
       <Header />
       {isLoaded && (
         <Flex
@@ -111,8 +112,8 @@ export default function NewTripPage() {
           alignItems="flex-end"
           justifyContent="center"
           flexDirection="column"
-          h="100vh"
-          w="100vw"
+          h="100%"
+          w="100%"
           wrap="no-wrap"
         >
           <Box position="absolute" left={0} top={0} h="100%" w="100%">
@@ -150,8 +151,10 @@ export default function NewTripPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
-                {isTitleError && (
+                {isTitleError ? (
                   <FormErrorMessage>Your trip is missing a cool name!</FormErrorMessage>
+                ) : (
+                  <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
                 )}
               </FormControl>
               <FormControl isRequired isInvalid={isOriginError}>
@@ -174,7 +177,11 @@ export default function NewTripPage() {
                 >
                   <Input variant="outline" placeholder="Rome, Illinois" id="origin" />
                 </Autocomplete>
-                {isOriginError && <FormErrorMessage>Where you are starting....?</FormErrorMessage>}
+                {isOriginError ? (
+                  <FormErrorMessage>Where you are starting....?</FormErrorMessage>
+                ) : (
+                  <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
+                )}
               </FormControl>
               <FormControl isRequired isInvalid={isDestinationError}>
                 <FormLabel
@@ -196,8 +203,10 @@ export default function NewTripPage() {
                 >
                   <Input variant="outline" placeholder="Paris, Texas" id="destination" />
                 </Autocomplete>
-                {isDestinationError && (
+                {isDestinationError ? (
                   <FormErrorMessage>Where are you headed...?</FormErrorMessage>
+                ) : (
+                  <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
                 )}
               </FormControl>
               <Button
@@ -215,6 +224,6 @@ export default function NewTripPage() {
           </Box>
         </Flex>
       )}
-    </div>
+    </>
   );
 }
