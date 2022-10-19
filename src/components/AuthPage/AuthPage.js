@@ -1,43 +1,119 @@
-import { useState } from 'react';
-import { Redirect, useParams, Link } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { Redirect, useParams, Link as RouterLink } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import { authUser } from '../../services/auth';
-import { Button } from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Link, Text } from '@chakra-ui/react';
+import Header from '../Header/Header';
 
 export default function AuthPage() {
-  const { type } = useParams();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
+  const { type: authMethod } = useParams();
   const { user, setUser } = useUserContext();
 
-  const authenticateUser = async () => {
-    const userResponse = await authUser(email, password, type);
-    setUser(userResponse);
-    setEmail('');
-    setPassword('');
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
+  const [emailInvalid, setEmailInvalid] = useState(false);
+  const [passwordInvalid, setPasswordInvalid] = useState(false);
 
+  const [error, setError] = useState();
+
+  const isFormInvalid = () => {
+    let invalid = false;
+    setEmailInvalid(false);
+    setPasswordInvalid(false);
+
+    if (emailInputRef.current.value === '' || !emailInputRef.current.checkValidity()) {
+      setEmailInvalid(true);
+      invalid = true;
+    }
+    if (passwordInputRef.current.value === '') {
+      setPasswordInvalid(true);
+      invalid = true;
+    }
+    return invalid;
   };
 
-  if (user) {
-    return <Redirect to='/' />;
-  }
+  const handleSubmit = async () => {
+    if (isFormInvalid()) return;
 
+    const email = emailInputRef.current.value;
+    const password = passwordInputRef.current.value;
+    try {
+      const userResponse = await authUser(email, password, authMethod);
+      setUser(userResponse);
+    } catch (error) {
+      if (error.message) {
+        setError(error.message);
+      } else {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
+    }
+  };
+
+  const presentableAuthMethod = authMethod === 'sign-in' ? 'Sign In' : 'Sign Up';
+
+  if (user) return <Redirect to='/' />;
   return (
-    <section className="authenticate-user">
-      <div className="info">
-
-        <label className="email"><input className="email" type="text" value={ email } onChange={(e) => setEmail(e.target.value)} placeholder="email" /></label>
-        <input className="password" type="password" value={ password } onChange={ (e) => setPassword(e.target.value) } placeholder="password" />
-        <Button className="sign-in" type="submit" onClick={ authenticateUser }>{ type }</Button>
-        {
-          type === 'sign-in' ?
-            <Link className="sign-in" to='/auth/sign-up'>sign-up</Link> :
-            <Link className="sign-up" to='/auth/sign-in'>sign-in</Link>
-        }
-      </div>
-      <h1>Please sign-in to continue:</h1>
-    </section>
+    <>
+      <Header />
+      <Flex
+        justifyContent='center'
+        alignItems='start'
+      >
+        <Box
+          marginTop='75px'
+          width='80%'
+          maxWidth='450px'
+          boxShadow='xl'
+          padding='20px'
+          rounded='xl'
+        >
+          <Text fontSize='3xl' marginBottom='30px'>
+            {`Please ${presentableAuthMethod.toLocaleLowerCase()} to continue.`}
+          </Text>
+          <Flex direction='column' alignItems='center' gap='5px'>
+            <Text color='red'>{error ? error + '.' : '\u00A0'}</Text>
+            <FormControl isInvalid={emailInvalid}>
+              <FormLabel>Email</FormLabel>
+              <Input
+                ref={emailInputRef}
+                type="email"
+                onKeyUp={(e) => e.key === 'Enter' && handleSubmit()}
+              />
+              {emailInvalid
+                ? <FormErrorMessage>Please enter a valid email address.</FormErrorMessage>
+                : <FormHelperText>&nbsp;</FormHelperText>}
+            </FormControl>
+            <FormControl isInvalid={passwordInvalid}>
+              <FormLabel>Password</FormLabel>
+              <Input
+                ref={passwordInputRef}
+                type="password"
+                onKeyUp={(e) => e.key === 'Enter' && handleSubmit()}
+              />
+              {passwordInvalid
+                ? <FormErrorMessage>Password is required.</FormErrorMessage>
+                : <FormHelperText>&nbsp;</FormHelperText>}
+            </FormControl>
+            <Button
+              marginY='20px'
+              onClick={handleSubmit}
+              alignSelf="end"
+            >
+              {presentableAuthMethod}
+            </Button>
+            {authMethod === 'sign-in'
+              ?
+              <Link as={RouterLink} to='/auth/sign-up'>
+                Need to create an account? Sign Up.
+              </Link>
+              :
+              <Link as={RouterLink} to='/auth/sign-in'>
+                Already have an account? Sign In.
+              </Link>}
+          </Flex>
+        </Box>
+      </Flex>
+    </>
   );
 }
