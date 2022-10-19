@@ -11,7 +11,14 @@ const AboutPage = () => {
   };
 
   return (
-    <section>{ devs.map((dev) => photoLink(dev)) }</section>
+    <section className="wrapper">
+            <div className="mission">
+                <h2 className="title">TALLY-HO!</h2><!-- need mission statement -->
+                <h4 className="mission">......</h4>
+                <strong>Don't forget your trips!</strong>
+            </div>
+      { devs.map((dev) => photoLink(dev)) }
+    </section>
 
 
   );
