@@ -1,4 +1,5 @@
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
+import { Flex, FormControl, Heading, IconButton, Input } from '@chakra-ui/react';
 import { Autocomplete } from '@react-google-maps/api';
 import { useRef, useState } from 'react';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
@@ -10,6 +11,8 @@ import WaypointList from '../WaypointList/WaypointList';
 export default function SidePanel({ trip, setTrip, legs }) {
   const [placeId, setPlaceId] = useState('');
   const [waypointName, setWaypointName] = useState('');
+  const [waypointInputValue, setWaypointInputValue] = useState('');
+  const [userInputValidPlace, setUserInputValidPlace] = useState(false);
   const { user } = useUserContext();
   const autocompleteRef = useRef();
 
@@ -25,11 +28,12 @@ export default function SidePanel({ trip, setTrip, legs }) {
       const { place_id, name } = autocomplete.getPlace();
       setPlaceId(place_id);
       setWaypointName(name);
+      setWaypointInputValue(name);
+      setUserInputValidPlace(true);
     }
   };
 
-  const handleAddWaypoint = async (e) => {
-    e.preventDefault();
+  const handleAddWaypoint = async () => {
     const newWaypoint = await createWaypoint(trip.id, {
       place_id: placeId,
       name: waypointName,
@@ -41,6 +45,8 @@ export default function SidePanel({ trip, setTrip, legs }) {
     newWaypoints.splice(-1, 0, newWaypoint);
     const updatedWaypoints = await updateWaypoints(newWaypoints);
     setTrip({ ...trip, waypoints: updatedWaypoints });
+    setWaypointInputValue('');
+    setUserInputValidPlace(false);
   };
 
   return (
@@ -53,7 +59,6 @@ export default function SidePanel({ trip, setTrip, legs }) {
       align="center"
       direction="column"
       boxShadow="dark-lg"
-      overflow="scroll"
       rounded="xl"
     >
       <Heading
@@ -62,18 +67,19 @@ export default function SidePanel({ trip, setTrip, legs }) {
         paddingBottom="6px"
         borderBottom="3px solid #006D77"
       >{trip.title}</Heading>
-      {trip.waypoints && legs && <WaypointList waypoints={trip.waypoints} trip={trip} setTrip={setTrip} legs={legs} />}
-      <form onSubmit={handleAddWaypoint}>
-        <label htmlFor="waypoint">
-          Add a stop:
+      <Flex flexGrow="1" overflow="scroll" width="100%" direction="column" align="center">
+        {trip.waypoints && legs && <WaypointList waypoints={trip.waypoints} trip={trip} setTrip={setTrip} legs={legs} />}
+      </Flex>
+      <Flex align="center" gap="10px" marginTop="36px">
+        <FormControl isRequired>
           {isLoaded && (
             <Autocomplete fields={['place_id', 'name']} onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-              <input placeholder="New Stop..." id="waypoint" />
+              <Input placeholder="New Stop..." id="waypoint" value={waypointInputValue} onChange={(e) => setWaypointInputValue(e.target.value)} />
             </Autocomplete>
           )}
-        </label>
-        <button>+</button>
-      </form>
+        </FormControl>
+        <IconButton icon={<AddIcon />} onClick={handleAddWaypoint} colorScheme="teal" isDisabled={!userInputValidPlace}/>
+      </Flex>
       <TripNotes trip={trip} setTrip={setTrip}/>
     </Flex>
   );

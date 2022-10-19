@@ -2,6 +2,7 @@ import Waypoint from '../Waypoint/Waypoint';
 import { Draggable } from 'react-drag-reorder';
 import { updateWaypoints } from '../../services/trips';
 import { useState } from 'react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 
 export default function WaypointList({ waypoints, setTrip, trip, legs }) {
 
@@ -84,14 +85,22 @@ export default function WaypointList({ waypoints, setTrip, trip, legs }) {
 
 
   return (
-    <div>
+    <Box w="250px">
       <Draggable onPosChange={onPosChange} key={legs}>
         {waypoints.map((waypoint, i) => (
           <Waypoint key={waypoint.id} {...waypoint} trip={trip} setTrip={setTrip} leg={i < legs.length ? legs[i] : null} />
         ))}
       </Draggable>
-      <p>{totalDistance}</p>
-      <p>{totalTime}</p>
-    </div>
+      <Flex justify="space-around">
+        <Flex direction="column" align="center" w="50%">
+          <Text as="b">Total Distance</Text>
+          <Text as="i">{totalDistance}</Text>
+        </Flex>
+        <Flex direction="column" align="center" w="50%">
+          <Text as="b">Total Time</Text>
+          <Text as="i">{totalTime}</Text>
+        </Flex>
+      </Flex>
+    </Box>
   );
 }

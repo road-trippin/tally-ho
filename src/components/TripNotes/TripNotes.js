@@ -19,7 +19,7 @@ export default function TripNotes({ trip, setTrip }) {
 
   return (
     <>
-      <Button onClick={onOpen}>{trip.notes ? 'View Trip Notes' : 'Add Trip Notes'}</Button>
+      <Button onClick={onOpen} marginBottom="12px" marginTop="10px" justifySelf="flex-end" padding="12px" colorScheme="teal" variant="ghost">{trip.notes ? 'View Trip Notes' : 'Add Trip Notes'}</Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
