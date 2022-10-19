@@ -1,17 +1,6 @@
 import Header from '../Header/Header';
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Image,
-  Stack,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, IconButton, Image, Stack, Text } from '@chakra-ui/react';
+import { DeleteIcon, ArrowForwardIcon } from '@chakra-ui/icons';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import useTrips from '../../hooks/useTrips';
@@ -62,6 +51,8 @@ export default function HomePage() {
             minH="70vh"
             px={8}
             mb={16}
+            ml={55}
+            mr={55}
           >
             <Stack
               spacing={4}
@@ -94,27 +85,33 @@ export default function HomePage() {
                 boxShadow="2xl"
                 rounded="1rem"
                 padding="30px"
+                minWidth="400px"
                 w={{ base: '80%', sm: '60%', md: '50%' }}
                 mb={{ base: 12, md: 0 }}
               >
-                <Accordion allowToggle={true}>
+                <Stack spacing={5}>
                   {trips.map((trip) => (
-                    <AccordionItem key={trip.id}>
-                      <AccordionButton>
-                        <Box flex="1" textAlign="left">
-                          {trip.title}
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                      <AccordionPanel padding="10px">
-                        <Button onClick={() => handleEditTrip(trip.id)}>Edit</Button>
-                        <Button onClick={() => handleDeleteTrip(trip.id, trip.title)}>
-                          Delete
-                        </Button>
-                      </AccordionPanel>
-                    </AccordionItem>
+                    <Flex key={trip.id} justify="space-between">
+                      {/* <Box textAlign="left"> */}
+                      <Button
+                        variant="ghost"
+                        colorScheme="teal"
+                        onClick={() => handleEditTrip(trip.id)}
+                      >
+                        {trip.title}
+                      </Button>
+
+                      <IconButton
+                        aria-label="Delete Item"
+                        icon={<DeleteIcon />}
+                        variant="ghost"
+                        colorScheme="teal"
+                        onClick={() => handleDeleteTrip(trip.id, trip.title)}
+                      />
+                      {/* </Box> */}
+                    </Flex>
                   ))}
-                </Accordion>
+                </Stack>
               </Box>
               <span>{deleteMessage}</span>
               <Link to="/new-trip">
