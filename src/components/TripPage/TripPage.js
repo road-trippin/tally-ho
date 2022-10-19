@@ -22,6 +22,7 @@ export default function TripPage() {
   const [placeId, setPlaceId] = useState('');
   const [waypointName, setWaypointName] = useState('');
   const { user } = useUserContext();
+  const [legs, setLegs] = useState(null);
 
   // reference container from Autocomplete
   const autocompleteRef = useRef();
@@ -61,8 +62,8 @@ export default function TripPage() {
   return (
     <>
       <Header />
-      <MapEmbed {...trip} />
-      {trip.waypoints && <WaypointList waypoints={trip.waypoints} trip={trip} setTrip={setTrip} />}
+      <MapEmbed {...trip} setLegs={setLegs} />
+      {trip.waypoints && legs && <WaypointList waypoints={trip.waypoints} trip={trip} setTrip={setTrip} legs={legs} />}
       <form onSubmit={handleAddWaypoint}>
         <label htmlFor="waypoint">
           Add a stop:

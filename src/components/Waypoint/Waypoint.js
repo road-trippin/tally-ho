@@ -1,7 +1,7 @@
 import { deleteWaypoint } from '../../services/trips';
 import './Waypoint.css';
 
-export default function Waypoint({ trip, setTrip, name, id }) {
+export default function Waypoint({ trip, setTrip, name, id, leg }) {
   const handleDeleteWaypoint = async () => {
     if (trip.waypoints.length >= 2) {
       await deleteWaypoint(id);
@@ -10,9 +10,13 @@ export default function Waypoint({ trip, setTrip, name, id }) {
   };
 
   return (
-    <div className="waypoint">
-      {name}
-      <button onClick={handleDeleteWaypoint}>X</button>
+    <div className="waypoint-container">
+      <div className="waypoint">
+        {name}
+        <button onClick={handleDeleteWaypoint}>X</button>
+      </div>
+      {leg && <span className="distance">{leg.distance.text}, {leg.duration.text}</span>}
     </div>
+
   );
 }
