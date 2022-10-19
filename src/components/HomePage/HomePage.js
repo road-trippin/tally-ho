@@ -57,6 +57,7 @@ export default function HomePage() {
           <Flex
             align="center"
             justify={{ base: 'center', md: 'space-around', xl: 'space-between' }}
+            direction={{ base: 'column-reverse', md: 'row' }}
             wrap="no-wrap"
             minH="70vh"
             px={8}
@@ -73,7 +74,7 @@ export default function HomePage() {
                 size="xl"
                 fontWeight="bold"
                 color="#006D77"
-                textAlign={['center', 'center', 'left', 'left']}
+                textAlign={['center', 'center', 'flex-start', 'flex-start']}
               >
                 Time to Hit the Road!
               </Heading>
@@ -84,11 +85,18 @@ export default function HomePage() {
                 opacity="0.8"
                 fontWeight="bold"
                 lineHeight={1.5}
-                textAlign={['center', 'center', 'left', 'left']}
+                textAlign={['center', 'center', 'flex-start', 'flex-start']}
               >
                 Your Saved Trips:
               </Heading>
-              <Box maxWidth="500px" marginX="auto" boxShadow="2xl" rounded="1rem" padding="30px">
+              <Box
+                marginX="auto"
+                boxShadow="2xl"
+                rounded="1rem"
+                padding="30px"
+                w={{ base: '80%', sm: '60%', md: '50%' }}
+                mb={{ base: 12, md: 0 }}
+              >
                 <Accordion allowToggle={true}>
                   {trips.map((trip) => (
                     <AccordionItem key={trip.id}>
@@ -110,7 +118,7 @@ export default function HomePage() {
               </Box>
               <span>{deleteMessage}</span>
               <Link to="/new-trip">
-                <Button variant="outline" shadow="2xl" colorScheme="teal" marginY="20px" size="lg">
+                <Button variant="solid" shadow="2xl" colorScheme="teal" marginY="20px" size="lg">
                   Create a New Trip
                 </Button>
               </Link>
