@@ -1,11 +1,15 @@
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Heading,
+  Image,
   Input,
   SkeletonText,
+  Stack,
 } from '@chakra-ui/react';
 import './NewTripPage.css';
 import Header from '../Header/Header';
@@ -15,6 +19,7 @@ import { Autocomplete } from '@react-google-maps/api';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { createTrip, createWaypoint } from '../../services/trips';
+import newVan from '../../newVan.jpg';
 
 export default function NewTripPage() {
   const { user } = useUserContext();
@@ -100,68 +105,117 @@ export default function NewTripPage() {
   return (
     <div>
       <Header />
-      <Box
-        display="flex"
-        alignItems="center"
-        flexDirection="column"
-        width={500}
-        boxShadow="md"
-        p="6"
-        rounded="md"
-        bg="white"
-      >
-        <h2>Start a New Trip!</h2>
-        {isLoaded && (
-          <Box>
-            <FormControl isRequired isInvalid={isTitleError}>
-              <FormLabel htmlFor="trip-name" requiredIndicator>
-                Trip Name:
-                <Input
-                  variant="flushed"
-                  placeholder="Best Trip Ever!"
-                  id="trip-name"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </FormLabel>
-              {isTitleError && (
-                <FormErrorMessage>Your trip is missing a cool name!</FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl isRequired isInvalid={isOriginError}>
-              <FormLabel htmlFor="origin" requiredIndicator>
-                Origin:
-                <Autocomplete
-                  fields={['place_id', 'name']}
-                  onLoad={(autocomplete) => {
-                    originRef.current = autocomplete;
-                  }}
-                  onPlaceChanged={handleOriginChanged}
-                >
-                  <Input variant="flushed" placeholder="Rome, Illinois" id="origin" />
-                </Autocomplete>
-              </FormLabel>
-              {isOriginError && <FormErrorMessage>Where you are starting....?</FormErrorMessage>}
-            </FormControl>
-            <FormControl isRequired isInvalid={isDestinationError}>
-              <FormLabel htmlFor="destination" requiredIndicator>
-                Destination:
-                <Autocomplete
-                  fields={['place_id', 'name']}
-                  onLoad={(autocomplete) => {
-                    destinationRef.current = autocomplete;
-                  }}
-                  onPlaceChanged={handleDestinationChanged}
-                >
-                  <Input variant="flushed" placeholder="Paris, Texas" id="destination" />
-                </Autocomplete>
-              </FormLabel>
-              {isDestinationError && <FormErrorMessage>Where are you headed...?</FormErrorMessage>}
-            </FormControl>
-            <Button onClick={handleAddTrip}>Embark!</Button>
+      {isLoaded && (
+        <Flex
+          position="relative"
+          alignItems="flex-end"
+          justifyContent="center"
+          flexDirection="column"
+          h="100vh"
+          w="100vw"
+          wrap="no-wrap"
+        >
+          <Box position="absolute" left={0} top={0} h="100%" w="100%">
+            <Image src={newVan}></Image>
           </Box>
-        )}
-      </Box>
+          <Box
+            width={500}
+            boxShadow="md"
+            p="6"
+            rounded="lg"
+            bg="white"
+            zIndex="1"
+            mr="200px"
+            padding="40px"
+            borderRadius="10%"
+          >
+            <Heading as="h1" size="lg" fontWeight="bold" color="#006D77" mb="20px">
+              Start a New Trip!
+            </Heading>
+            <Stack spacing={4}>
+              <FormControl isRequired isInvalid={isTitleError}>
+                <FormLabel
+                  htmlFor="trip-name"
+                  requiredIndicator
+                  as="h2"
+                  size="md"
+                  color="#FD9834"
+                  fontWeight="bold"
+                >
+                  Trip Name:
+                  <Input
+                    variant="flushed"
+                    placeholder="Best Trip Ever!"
+                    id="trip-name"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </FormLabel>
+                {isTitleError && (
+                  <FormErrorMessage>Your trip is missing a cool name!</FormErrorMessage>
+                )}
+              </FormControl>
+              <FormControl isRequired isInvalid={isOriginError}>
+                <FormLabel
+                  htmlFor="origin"
+                  requiredIndicator
+                  as="h2"
+                  size="md"
+                  color="#FD9834"
+                  fontWeight="bold"
+                >
+                  Origin:
+                  <Autocomplete
+                    fields={['place_id', 'name']}
+                    onLoad={(autocomplete) => {
+                      originRef.current = autocomplete;
+                    }}
+                    onPlaceChanged={handleOriginChanged}
+                  >
+                    <Input variant="flushed" placeholder="Rome, Illinois" id="origin" />
+                  </Autocomplete>
+                </FormLabel>
+                {isOriginError && <FormErrorMessage>Where you are starting....?</FormErrorMessage>}
+              </FormControl>
+              <FormControl isRequired isInvalid={isDestinationError}>
+                <FormLabel
+                  htmlFor="destination"
+                  requiredIndicator
+                  as="h2"
+                  size="md"
+                  color="#FD9834"
+                  fontWeight="bold"
+                >
+                  Destination:
+                  <Autocomplete
+                    fields={['place_id', 'name']}
+                    onLoad={(autocomplete) => {
+                      destinationRef.current = autocomplete;
+                    }}
+                    onPlaceChanged={handleDestinationChanged}
+                  >
+                    <Input variant="flushed" placeholder="Paris, Texas" id="destination" />
+                  </Autocomplete>
+                </FormLabel>
+                {isDestinationError && (
+                  <FormErrorMessage>Where are you headed...?</FormErrorMessage>
+                )}
+              </FormControl>
+              <Button
+                variant="solid"
+                shadow="2xl"
+                colorScheme="teal"
+                marginY="20px"
+                mt="20px"
+                size="lg"
+                onClick={handleAddTrip}
+              >
+                Embark!
+              </Button>
+            </Stack>
+          </Box>
+        </Flex>
+      )}
     </div>
   );
 }
