@@ -5,43 +5,22 @@ import { Redirect } from 'react-router-dom';
 import './Header.css';
 
 export default function Header() {
-
   const { user, setUser } = useUserContext();
 
-  const handleSignout = async () => {
+  const handleSignOut = async () => {
     await signOut();
     setUser(null);
   };
-
   if (!user) return <Redirect to="/auth/sign-in" />;
-
   return (
-    <section className="header-container">
+    <header>
+      <h2><a href="/" className="logo-link">Tally Ho!</a></h2>
       { user && (
-        <div className="header-wrapper">
-          <ul className="header">
-            <li className="list-item">
-              <a className="header-logo" href="/">tally-ho</a>
-            </li>
-            <li className="list-item">
-              <a href="/new-trip">new trip</a>
-            </li>
-            <li className="list-item">
-              <a href="/">back home</a>
-            </li>
-            <li className="list-item">
-              <span className="header-email" key={ user.id }>signed in as: { user.email }</span>
-            </li>
-            <li className="list-item">
-              <button className="header-signout" onClick={ handleSignout }>signout</button>
-            </li>
-
-            <li className="list-item">
-
-            </li>
-          </ul>
+        <div>
+          <p id="hello-message">Hello {user.email}</p>
+          <button onClick={handleSignOut}>Sign Out</button>
         </div>
       )}
-    </section>
+    </header>
   );
 }
