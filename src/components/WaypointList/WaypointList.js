@@ -42,15 +42,21 @@ export default function WaypointList({ waypoints, setTrip, trip, legs }) {
       a.push(b.duration.text);
       return a;
     }, []);
-    let hours = times.map(t => Number(t.split(' ')[0]))
+    let hours = times.map(t => {
+      if (!t.includes('day')) return Number(t.split(' ')[0]);
+      return Number(t.split(' ')[0]) * 24 + Number(t.split(' ')[2]);
+    })
       .reduce((a, b) => a + b, 0);
-    let minutes = times.map(t => Number(t.split(' ')[2]))
+    let minutes = times.map(t => {
+      if (!t.includes('day')) return Number(t.split(' ')[2]);
+      return 0;
+    })
       .reduce((a, b) => a + b, 0);
 
     hours += Math.floor(minutes / 60);
     minutes %= 60;
     
-    return `${hours} hrs ${minutes} mins`;
+    return minutes ? `${hours} hrs ${minutes} mins` : `${hours} hrs`;
   };
 
   if (legs !== prevLegs) {
