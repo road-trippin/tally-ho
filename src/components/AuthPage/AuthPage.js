@@ -3,21 +3,25 @@ import { Redirect, useParams, Link } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import { authUser } from '../../services/auth';
 import { Button } from '@chakra-ui/react';
+import { useErrorHandler } from 'react-error-boundary';
 
 export default function AuthPage() {
   const { type } = useParams();
-
+  const handleError = useErrorHandler();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const { user, setUser } = useUserContext();
 
   const authenticateUser = async () => {
-    const userResponse = await authUser(email, password, type);
-    setUser(userResponse);
-    setEmail('');
-    setPassword('');
-
+    try {
+      const userResponse = await authUser(email, password, type);
+      setUser(userResponse);
+      setEmail('');
+      setPassword('');
+    } catch (e) {
+      handleError(e);
+    }
   };
 
   if (user) {
