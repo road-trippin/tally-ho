@@ -2,7 +2,6 @@ import Waypoint from '../Waypoint/Waypoint';
 import { Draggable } from 'react-drag-reorder';
 import { updateWaypoints } from '../../services/trips';
 import { useState } from 'react';
-import { Box } from '@chakra-ui/react';
 
 export default function WaypointList({ waypoints, setTrip, trip, legs }) {
 
