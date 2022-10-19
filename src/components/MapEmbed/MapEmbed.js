@@ -6,7 +6,7 @@ import { useGoogleScript } from '../../context/GoogleScriptContext';
 const mapContainerStyle = { width: '85%', height: '700px' };
 const mapOptions = { streetViewControl: false, mapTypeControl: false, fullscreenControl: false };
 
-export default function MapEmbed({ waypoints }) {
+export default function MapEmbed({ waypoints, setLegs }) {
   const [shouldLoadDirections, setShouldLoadDirections] = useState(true);
   const [prevWaypoints, setPrevWaypoints] = useState(waypoints);
   const { isLoaded } = useGoogleScript();
@@ -21,6 +21,8 @@ export default function MapEmbed({ waypoints }) {
   const directionsResultCallback = (response) => {
     if (response && response.status === 'OK') {
       setShouldLoadDirections(false);
+
+      setLegs(response.routes[0].legs);
 
       // Unbind previous direction renderer from map so it doesn't continue displaying an old route.
       directionsRendererRef.current?.setMap(null);
