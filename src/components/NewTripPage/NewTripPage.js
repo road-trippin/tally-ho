@@ -120,9 +120,6 @@ export default function NewTripPage() {
           backgroundPosition="bottom-left"
           backgroundSize="cover"
         >
-          <Box position="absolute" left={0} top={0} h="100%" w="100%">
-            <Image src={newVan}></Image>
-          </Box>
           <Box
             width={500}
             boxShadow="dark-lg"
