@@ -82,7 +82,7 @@ export default function HomePage() {
                 size="md"
                 color="#FD9834"
                 opacity="0.8"
-                fontWeight="normal"
+                fontWeight="bold"
                 lineHeight={1.5}
                 textAlign={['center', 'center', 'left', 'left']}
               >
@@ -110,7 +110,7 @@ export default function HomePage() {
               </Box>
               <span>{deleteMessage}</span>
               <Link to="/new-trip">
-                <Button variant="ghost" shadow="2xl" colorScheme="cyan" marginY="20px" size="lg">
+                <Button variant="outline" shadow="2xl" colorScheme="teal" marginY="20px" size="lg">
                   Create a New Trip
                 </Button>
               </Link>
