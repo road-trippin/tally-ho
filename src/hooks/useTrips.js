@@ -21,5 +21,5 @@ export default function useTrips() {
     fetchTrips();
   }, []);
 
-  return { trips, loading };
+  return { trips, setTrips, loading };
 }

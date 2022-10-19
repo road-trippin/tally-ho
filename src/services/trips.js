@@ -64,9 +64,7 @@ export async function deleteTrip(id) {
     .match({ id })
     .single();
 
-  const trip = checkError(response);
-  trip.waypoints.sort((a, b) => a.position - b.position);
-  return trip;
+  return checkError(response);
 }
 
 // waypoint functions
@@ -96,5 +94,14 @@ export async function updateWaypoint(waypointData) {
     .match({ id: waypointData.id })
     .single();
 
+  return checkError(response);
+}
+
+export async function deleteTripWaypoints(tripId) {
+  const response = await client
+    .from('waypoints')
+    .delete()
+    .match({ trip_id: tripId });
+  
   return checkError(response);
 }
