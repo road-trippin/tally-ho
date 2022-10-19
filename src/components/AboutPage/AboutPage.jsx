@@ -12,11 +12,11 @@ const AboutPage = () => {
 
   return (
     <section className="wrapper">
-            <div className="mission">
-                <h2 className="title">TALLY-HO!</h2><!-- need mission statement -->
-                <h4 className="mission">......</h4>
-                <strong>Don't forget your trips!</strong>
-            </div>
+      <div className="mission">
+        <h2 className="title">TALLY-HO!</h2>
+        <h4 className="mission">......</h4>
+        <strong>Don&apos;t forget your trips!</strong>
+      </div>
       { devs.map((dev) => photoLink(dev)) }
     </section>
 
