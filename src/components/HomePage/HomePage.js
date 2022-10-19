@@ -1,6 +1,6 @@
 import Header from '../Header/Header';
 import { Box, Button, Flex, Heading, IconButton, Image, Stack, Text } from '@chakra-ui/react';
-import { DeleteIcon, ArrowForwardIcon } from '@chakra-ui/icons';
+import { DeleteIcon } from '@chakra-ui/icons';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import useTrips from '../../hooks/useTrips';
