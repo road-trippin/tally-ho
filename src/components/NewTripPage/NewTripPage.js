@@ -128,7 +128,7 @@ export default function NewTripPage() {
             zIndex="1"
             mr="200px"
             padding="40px"
-            className="animate__animated animate__fadeInDownBig"
+            className="animate__animated animate__fadeInRightBig"
           >
             <Heading as="h1" size="lg" fontWeight="bold" color="#006D77" mb="20px">
               Start a New Trip!
