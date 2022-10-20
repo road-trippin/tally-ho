@@ -16,7 +16,7 @@ import Header from '../Header/Header';
 import { useUserContext } from '../../context/UserContext';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
 import { Redirect, useHistory } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { createTrip, createWaypoint } from '../../services/trips';
 import newVan from '../../newVan.jpg';
 import 'animate.css';
@@ -25,18 +25,13 @@ import PlaceInput from '../PlaceInput/PlaceInput';
 export default function NewTripPage() {
   const { user } = useUserContext();
   const { isLoaded } = useGoogleScript();
+  let history = useHistory();
 
+  const [title, setTitle] = useState('');
   const [isTitleError, setIsTitleError] = useState(false);
-  const [isOriginError, setIsOriginError] = useState(false);
-  const [isDestinationError, setIsDestinationError] = useState(false);
 
   const [origin, setOrigin] = useState(null);
   const [destination, setDestination] = useState(null);
-  const [title, setTitle] = useState('');
-
-  let history = useHistory();
-  const originInputRef = useRef();
-  const destinationInputRef = useRef();
 
   const onOriginChange = (origin) => {
     setOrigin(origin);
@@ -45,14 +40,6 @@ export default function NewTripPage() {
   const onDestinationChange = (destination) => {
     setDestination(destination);
   };
-
-  // const handleDestinationChanged = () => {
-  //   const autocomplete = destinationRef.current;
-  //   if (autocomplete !== null) {
-  //     const { place_id, name } = autocomplete.getPlace();
-  //     setDestination({ place_id, name });
-  //   }
-  // };
 
   if (!user) <Redirect to="/auth/sign-in" />;
 
@@ -67,12 +54,10 @@ export default function NewTripPage() {
       setIsTitleError(true);
       isFormInvalid = true;
     }
-    if (origin === null) {
-      setIsOriginError(true);
+    if (!origin) {
       isFormInvalid = true;
     }
-    if (destination === null) {
-      setIsDestinationError(true);
+    if (!destination) {
       isFormInvalid = true;
     }
     if (isFormInvalid) return;
@@ -165,7 +150,7 @@ export default function NewTripPage() {
                   <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
                 )}
               </FormControl>
-              <FormControl isRequired isInvalid={isOriginError}>
+              <FormControl isRequired isInvalid={origin === undefined}>
                 <FormLabel
                   htmlFor="origin"
                   requiredIndicator
@@ -177,18 +162,17 @@ export default function NewTripPage() {
                   Origin:
                 </FormLabel>
                 <PlaceInput
-                  ref={originInputRef}
                   onChange={onOriginChange}
                   value={origin}
                   placeholder="Rome, IL"
                 ></PlaceInput>
-                {isOriginError ? (
-                  <FormErrorMessage>Where you are starting?</FormErrorMessage>
+                {origin === undefined ? (
+                  <FormErrorMessage>Please enter a valid place.</FormErrorMessage>
                 ) : (
                   <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
                 )}
               </FormControl>
-              <FormControl isRequired isInvalid={isDestinationError}>
+              <FormControl isRequired isInvalid={destination === undefined}>
                 <FormLabel
                   htmlFor="destination"
                   requiredIndicator
@@ -200,13 +184,12 @@ export default function NewTripPage() {
                   Destination:
                 </FormLabel>
                 <PlaceInput
-                  ref={destinationInputRef}
                   onChange={onDestinationChange}
                   value={destination}
                   placeholder="Paris, TX"
                 ></PlaceInput>
-                {isDestinationError ? (
-                  <FormErrorMessage>Where are you headed?</FormErrorMessage>
+                {destination === undefined ? (
+                  <FormErrorMessage>Please enter a valid place.</FormErrorMessage>
                 ) : (
                   <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
                 )}
