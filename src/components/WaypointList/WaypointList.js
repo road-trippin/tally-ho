@@ -5,13 +5,10 @@ import { useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 
 export default function WaypointList({ trip, setTrip, legs }) {
-
   const [totalDistance, setTotalDistance] = useState('');
   const [totalTime, setTotalTime] = useState('');
   const [prevLegs, setPrevLegs] = useState([]);
   const [randomKey, setRandomKey] = useState(0);
-
-  const positionedWaypoints = trip.waypoints.map((waypoint, i) => ({ ...waypoint, position: i }));
 
   const getTotalDistance = () => {
     const miles = legs.reduce((a, b) => {
@@ -69,9 +66,9 @@ export default function WaypointList({ trip, setTrip, legs }) {
   }
 
   const onPosChange = async (currentPos, newPos) => {
-    positionedWaypoints[currentPos].position = newPos;
+    trip.waypoints[currentPos].position = newPos;
     if (newPos !== currentPos) {
-      positionedWaypoints.forEach((waypoint, i) => {
+      trip.waypoints.forEach((waypoint, i) => {
         if (newPos > currentPos && i > currentPos && i <= newPos) {
           waypoint.position--;
         }
@@ -79,8 +76,8 @@ export default function WaypointList({ trip, setTrip, legs }) {
           waypoint.position++;
         }
       });
-      positionedWaypoints.sort((a, b) => a.position - b.position);
-      const updatedWaypoints = await updateWaypoints(positionedWaypoints);
+      trip.waypoints.sort((a, b) => a.position - b.position);
+      const updatedWaypoints = await updateWaypoints(trip.waypoints);
       setTrip({ ...trip, waypoints: updatedWaypoints });
     }
   };
