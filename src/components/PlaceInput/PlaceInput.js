@@ -14,13 +14,11 @@ export default forwardRef(function PlaceInput({
   const autocompleteRef = useRef();
 
   const [inputValue, setInputValue] = useState('');
-  const [place, setPlace] = useState();
 
   if (ref) {
     ref.current = {
       clear() {
         setInputValue('');
-        setPlace();
         onChange();
       }
     };
@@ -28,17 +26,13 @@ export default forwardRef(function PlaceInput({
 
   const onPlaceChanged = () => {
     const newPlace = autocompleteRef.current.getPlace();
-    setPlace(newPlace);
     setInputValue(newPlace.name);
     onChange(newPlace);
   };
 
   const onInputChanged = (e) => {
     setInputValue(e.target.value);
-    if (place) {
-      setPlace();
-      onChange();
-    }
+    onChange();
   };
 
   if (!isGoogleScriptLoaded) return <div></div>;
