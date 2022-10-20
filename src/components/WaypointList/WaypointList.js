@@ -66,20 +66,14 @@ export default function WaypointList({ trip, setTrip, legs }) {
   }
 
   const onPosChange = async (currentPos, newPos) => {
-    trip.waypoints[currentPos].position = newPos;
-    if (newPos !== currentPos) {
-      trip.waypoints.forEach((waypoint, i) => {
-        if (newPos > currentPos && i > currentPos && i <= newPos) {
-          waypoint.position--;
-        }
-        if (currentPos > newPos && i < currentPos && i >= newPos) {
-          waypoint.position++;
-        }
-      });
-      trip.waypoints.sort((a, b) => a.position - b.position);
-      const updatedWaypoints = await updateWaypoints(trip.waypoints);
-      setTrip({ ...trip, waypoints: updatedWaypoints });
-    }
+    if (currentPos === newPos) return;
+
+    const waypoints = [...trip.waypoints];
+    const [shiftedWaypoint] = waypoints.splice(currentPos, 1);
+    waypoints.splice(newPos, 0, shiftedWaypoint);
+
+    const updatedWaypoints = await updateWaypoints(waypoints);
+    setTrip({ ...trip, waypoints: updatedWaypoints });
   };
 
   return (
