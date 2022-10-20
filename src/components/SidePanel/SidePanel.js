@@ -68,7 +68,7 @@ export default function SidePanel({ trip, setTrip, legs }) {
         borderBottom="3px solid #006D77"
       >{trip.title}</Heading>
       <Flex flexGrow="1" overflow="scroll" width="100%" direction="column" align="center">
-        {trip.waypoints && legs && <WaypointList waypoints={trip.waypoints} trip={trip} setTrip={setTrip} legs={legs} />}
+        {legs && <WaypointList waypoints={trip.waypoints} trip={trip} setTrip={setTrip} legs={legs} />}
       </Flex>
       <Flex align="center" gap="10px" marginTop="36px">
         <FormControl isRequired>
