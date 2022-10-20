@@ -44,6 +44,7 @@ export default function AboutPage() {
         <Flex
           flexFlow="row wrap"
           justifyContent="center"
+          alignItems="flex-start"
           gap="50"
         >
           {devs.map((dev, index) => <DevCard key={index} dev={dev} />)}
@@ -80,7 +81,7 @@ function DevCard({ dev }) {
     >
       <Box rounded="2xl" overflow="hidden">
         <a href={ gitHubFn(dev) } target="_blank noreferrer">
-          <img width="250" src={ photoFn(dev) } />
+          <img width="320" src={ photoFn(dev) } />
         </a>
       </Box>
 
