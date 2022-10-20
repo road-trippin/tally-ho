@@ -11,6 +11,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  MenuGroup
 } from '@chakra-ui/react';
 
 export default function Header() {
@@ -48,8 +49,9 @@ export default function Header() {
               <HamburgerIcon w={8} h={8}></HamburgerIcon>
             </MenuButton>
             <MenuList color="teal">
-              <MenuItem>{`You are signed in as ${firstName}`}</MenuItem>
-              <MenuItem onClick={ handleSignOut }>Sign Out</MenuItem>
+              <MenuGroup title={`You are signed in as ${firstName}`}>
+                <MenuItem onClick={ handleSignOut }>Sign Out</MenuItem>
+              </MenuGroup>
             </MenuList>
           </Menu>
 
