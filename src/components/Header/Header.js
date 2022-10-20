@@ -14,7 +14,7 @@ import {
   MenuGroup
 } from '@chakra-ui/react';
 
-export default function Header() {
+export default function Header({ navLinks = [] }) {
 
   const history = useHistory();
 
@@ -29,18 +29,6 @@ export default function Header() {
     setUser(null);
     history.push('/auth/sign-in');
   };
-
-  const navLinks = [
-    {
-      text: 'New Trip',
-      path: '/new-trip',
-    },
-    {
-      text: 'Home',
-      path: '/',
-    }
-  ];
-
 
   return (
     <header>
