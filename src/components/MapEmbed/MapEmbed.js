@@ -3,7 +3,7 @@ import { DirectionsService, GoogleMap } from '@react-google-maps/api';
 import { useRef, useState } from 'react';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
 
-const mapContainerStyle = { width: '85%', height: '700px' };
+const mapContainerStyle = { width: '100%', height: '100%' };
 const mapOptions = { streetViewControl: false, mapTypeControl: false, fullscreenControl: false };
 
 export default function MapEmbed({ waypoints, setLegs }) {
