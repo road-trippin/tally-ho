@@ -4,15 +4,15 @@ import { updateWaypoints } from '../../services/trips';
 import { useState } from 'react';
 import { Box, Flex, Text } from '@chakra-ui/react';
 
-export default function WaypointList({ waypoints, setTrip, trip, legs }) {
+export default function WaypointList({ trip, setTrip, legs }) {
 
   const [totalDistance, setTotalDistance] = useState('');
   const [totalTime, setTotalTime] = useState('');
   const [prevLegs, setPrevLegs] = useState([]);
   const [randomKey, setRandomKey] = useState(0);
 
-  const positionedWaypoints = waypoints.map((waypoint, i) => ({ ...waypoint, position: i }));
-  
+  const positionedWaypoints = trip.waypoints.map((waypoint, i) => ({ ...waypoint, position: i }));
+
   const getTotalDistance = () => {
     const miles = legs.reduce((a, b) => {
       a.push(b.distance.text);
@@ -21,7 +21,7 @@ export default function WaypointList({ waypoints, setTrip, trip, legs }) {
       .map(d => Number(d.split(' ')[0].replace(',', '')))
       .reduce((a, b) => a + b, 0)
       .toString();
-    
+
     let stringifiedMiles = '';
 
     if (!miles.includes('.')) {
@@ -31,7 +31,7 @@ export default function WaypointList({ waypoints, setTrip, trip, legs }) {
     } else {
       const splitMiles = miles.split('.');
       const intMiles = splitMiles[0];
-      const formattedIntMiles = intMiles.length > 3 ? 
+      const formattedIntMiles = intMiles.length > 3 ?
         [intMiles.slice(0, intMiles.length - 3), ',', intMiles.slice(intMiles.length - 3)].join('')
         : intMiles;
       stringifiedMiles = [formattedIntMiles, '.', splitMiles[1]].join('');
@@ -57,7 +57,7 @@ export default function WaypointList({ waypoints, setTrip, trip, legs }) {
 
     hours += Math.floor(minutes / 60);
     minutes %= 60;
-    
+
     return minutes ? `${hours} hrs ${minutes} mins` : `${hours} hrs`;
   };
 
@@ -88,7 +88,7 @@ export default function WaypointList({ waypoints, setTrip, trip, legs }) {
   return (
     <Box w="250px">
       <Draggable onPosChange={onPosChange} key={randomKey}>
-        {waypoints.map((waypoint, i) => (
+        {trip.waypoints.map((waypoint, i) => (
           <Waypoint
             key={waypoint.id}
             {...waypoint} trip={trip}
