@@ -35,9 +35,8 @@ export default function AboutPage() {
         backgroundSize="cover"
       >
         <Text
+          className="brand title"
           textAlign="center"
-          fontSize="5xl"
-          fontWeight="light"
           marginY="40px"
         >
           About Us
