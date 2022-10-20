@@ -105,7 +105,14 @@ export default function NewTripPage() {
 
   return (
     <>
-      <Header />
+      <Header
+        navLinks={ [
+          {
+            text: 'Home',
+            path: '/'
+          }
+        ]}
+      />
       {isLoaded && (
         <Flex
           position="relative"

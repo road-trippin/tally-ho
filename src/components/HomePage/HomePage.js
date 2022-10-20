@@ -37,7 +37,14 @@ export default function HomePage() {
 
   return (
     <>
-      <Header />
+      <Header
+        navLinks={[
+          {
+            text: 'New Trip',
+            path: '/new-trip'
+          }
+        ]}
+      />
 
       {loading ? (
         <p>loading...</p>
