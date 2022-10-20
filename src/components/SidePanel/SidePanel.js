@@ -2,12 +2,12 @@ import { AddIcon, EditIcon } from '@chakra-ui/icons';
 import { Checkbox, CheckboxGroup, Flex, FormControl, Heading, IconButton, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Stack } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { useUserContext } from '../../context/UserContext';
-import { createWaypoint, updateWaypoints } from '../../services/trips';
+import { createWaypoint, updateTrip, updateWaypoints } from '../../services/trips';
 import PlaceInput from '../PlaceInput/PlaceInput';
 import TripNotes from '../TripNotes/TripNotes';
 import WaypointList from '../WaypointList/WaypointList';
 
-export default function SidePanel({ trip, setTrip, legs, setAvoidHighways, setAvoidTolls, avoidHighways, avoidTolls }) {
+export default function SidePanel({ trip, setTrip, legs }) {
   const { user } = useUserContext();
   const [place, setPlace] = useState();
   const placeInputRef = useRef();
@@ -19,8 +19,24 @@ export default function SidePanel({ trip, setTrip, legs, setAvoidHighways, setAv
   };
 
   const defaultChecked = [];
-  if (avoidHighways) defaultChecked.push('highways');
-  if (avoidTolls) defaultChecked.push('tolls');
+  if (trip.avoid_highways) defaultChecked.push('highways');
+  if (trip.avoid_tolls) defaultChecked.push('tolls');
+
+  const handleAvoidHighways = async () => {
+    await updateTrip({
+      id: trip.id,
+      avoid_highways: !trip.avoid_highways 
+    });
+    setTrip({ ...trip, avoid_highways: !trip.avoid_highways });
+  };
+
+  const handleAvoidTolls = async () => {
+    await updateTrip({
+      id: trip.id,
+      avoid_tolls: !trip.avoid_tolls
+    });
+    setTrip({ ...trip, avoid_tolls: !trip.avoid_tolls });
+  };
 
   const handleAddWaypoint = async () => {
     const newWaypoint = await createWaypoint(trip.id, {
@@ -49,10 +65,11 @@ export default function SidePanel({ trip, setTrip, legs, setAvoidHighways, setAv
       boxShadow="dark-lg"
       rounded="xl"
     >
-      <Flex>
+      <Flex align="center">
         <Heading
           textAlign="center"
           m="16px"
+          size="lg"
           paddingBottom="6px"
           borderBottom="3px solid #006D77"
         >{trip.title}</Heading>
@@ -67,8 +84,8 @@ export default function SidePanel({ trip, setTrip, legs, setAvoidHighways, setAv
             <PopoverBody>
               <CheckboxGroup direction='column' defaultValue={defaultChecked}>
                 <Stack>
-                  <Checkbox value='highways' onChange={() => setAvoidHighways(!avoidHighways)}>Highways</Checkbox>
-                  <Checkbox value='tolls' onChange={() => setAvoidTolls(!avoidTolls)}>Tolls</Checkbox>
+                  <Checkbox value='highways' onChange={handleAvoidHighways}>Highways</Checkbox>
+                  <Checkbox value='tolls' onChange={handleAvoidTolls}>Tolls</Checkbox>
                 </Stack>
               </CheckboxGroup>
             </PopoverBody>
