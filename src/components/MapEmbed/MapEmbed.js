@@ -5,6 +5,10 @@ import { useGoogleScript } from '../../context/GoogleScriptContext';
 const mapContainerStyle = { width: '100%', height: '100%' };
 const mapOptions = { streetViewControl: false, mapTypeControl: false, fullscreenControl: false };
 
+// These values were chosen to be center the US
+const initialMapZoom = 4;
+const initialMapCenter = { lat: 40, lng: -100 };
+
 function createGooglePlace(waypoint) {
   return { placeId: waypoint.place_id };
 }
@@ -56,6 +60,8 @@ export default function MapEmbed({ waypoints, onRouteChanged }) {
   if (!isGoogleScriptLoaded) return <></>;
   return (
     <GoogleMap
+      zoom={initialMapZoom}
+      center={initialMapCenter}
       mapContainerStyle={mapContainerStyle}
       options={mapOptions}
       onLoad={map => mapRef.current = map}
