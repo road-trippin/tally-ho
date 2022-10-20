@@ -1,4 +1,4 @@
-import { Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Textarea, useDisclosure } from '@chakra-ui/react';
+import { Box, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Textarea, Text, useDisclosure } from '@chakra-ui/react';
 import { useState } from 'react';
 import { updateTrip } from '../../services/trips';
 
@@ -24,7 +24,7 @@ export default function TripNotes({ trip, setTrip }) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Notes for {trip.title}</ModalHeader>
+          <ModalHeader borderBottom="2px solid #006D77">Notes for {trip.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Box h="100px">
@@ -33,7 +33,8 @@ export default function TripNotes({ trip, setTrip }) {
                   defaultValue={trip.notes}
                   onChange={(e) => setTripNotes(e.target.value)}
                 />
-                : <p>{trip.notes}</p>
+                : 
+                trip.notes ? <Text>{trip.notes}</Text> : <Text as="i">No notes yet</Text>
               }
             </Box>
             <Button onClick={isEditing ? handleSave : handleEdit}>{isEditing ? 'Save' : 'Edit'}</Button>

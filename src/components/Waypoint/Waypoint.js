@@ -14,10 +14,11 @@ export default function Waypoint({ trip, setTrip, name, id, leg }) {
 
   return (
     <div className="waypoint-container">
-      <Box h="80px">
+      <Box>
         <Flex
           boxShadow="md"
           rounded="md"
+          marginBottom="10px"
           paddingLeft="16px"
           paddingRight="16px"
           paddingTop="8px"
