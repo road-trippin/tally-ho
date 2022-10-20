@@ -30,6 +30,18 @@ export default function Header() {
     history.push('/auth/sign-in');
   };
 
+  const navLinks = [
+    {
+      text: 'New Trip',
+      path: '/new-trip',
+    },
+    {
+      text: 'Home',
+      path: '/',
+    }
+  ];
+
+
   return (
     <header>
       <Flex
@@ -49,6 +61,9 @@ export default function Header() {
               <HamburgerIcon w={8} h={8}></HamburgerIcon>
             </MenuButton>
             <MenuList color="teal">
+              {
+                navLinks.map((link, index) => <MenuItem key={ index } onClick={() => history.push(link.path)}>{ link.text }</MenuItem>)
+              }
               <MenuGroup title={`You are signed in as ${firstName}`}>
                 <MenuItem onClick={ handleSignOut }>Sign Out</MenuItem>
               </MenuGroup>
