@@ -1,6 +1,6 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import { signOut } from '../../services/auth';
 import './Header.css';
