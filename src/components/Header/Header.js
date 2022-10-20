@@ -11,7 +11,8 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuGroup
+  MenuGroup,
+  MenuDivider
 } from '@chakra-ui/react';
 
 export default function Header({ navLinks = [] }) {
@@ -54,6 +55,7 @@ export default function Header({ navLinks = [] }) {
                   navLinks.map((link, index) => <MenuItem key={ index } onClick={() => history.push(link.path)}>{ link.text }</MenuItem>)
                 }
               </MenuGroup>
+              <MenuDivider></MenuDivider>
               <MenuGroup title={`You are signed in as ${firstName}`}>
                 <MenuItem onClick={ handleSignOut }>Sign Out</MenuItem>
               </MenuGroup>

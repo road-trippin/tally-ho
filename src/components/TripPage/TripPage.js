@@ -17,14 +17,9 @@ export default function TripPage() {
     <>
       <Header
         navLinks={[
-          {
-            text: 'Home',
-            path: '/'
-          },
-          {
-            text: 'New Trip',
-            path: '/new-trip'
-          }
+          { text: 'Home', path: '/' },
+          { text: 'New Trip', path: '/new-trip' },
+          { text: 'About', path: '/about' }
         ]}
       />
       <Box pos="relative">

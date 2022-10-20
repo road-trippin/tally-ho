@@ -91,11 +91,9 @@ export default function NewTripPage() {
   return (
     <>
       <Header
-        navLinks={ [
-          {
-            text: 'Home',
-            path: '/'
-          }
+        navLinks={[
+          { text: 'Home', path: '/' },
+          { text: 'About', path: '/about' }
         ]}
       />
       {isLoaded && (
