@@ -61,9 +61,11 @@ export default function Header() {
               <HamburgerIcon w={8} h={8}></HamburgerIcon>
             </MenuButton>
             <MenuList color="teal">
-              {
-                navLinks.map((link, index) => <MenuItem key={ index } onClick={() => history.push(link.path)}>{ link.text }</MenuItem>)
-              }
+              <MenuGroup title="Navigation">
+                {
+                  navLinks.map((link, index) => <MenuItem key={ index } onClick={() => history.push(link.path)}>{ link.text }</MenuItem>)
+                }
+              </MenuGroup>
               <MenuGroup title={`You are signed in as ${firstName}`}>
                 <MenuItem onClick={ handleSignOut }>Sign Out</MenuItem>
               </MenuGroup>
