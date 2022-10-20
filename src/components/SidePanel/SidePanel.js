@@ -1,5 +1,5 @@
-import { AddIcon } from '@chakra-ui/icons';
-import { Flex, FormControl, Heading, IconButton } from '@chakra-ui/react';
+import { AddIcon, EditIcon } from '@chakra-ui/icons';
+import { Checkbox, CheckboxGroup, Flex, FormControl, Heading, IconButton, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Stack } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { useUserContext } from '../../context/UserContext';
 import { createWaypoint, updateWaypoints } from '../../services/trips';
@@ -7,7 +7,7 @@ import PlaceInput from '../PlaceInput/PlaceInput';
 import TripNotes from '../TripNotes/TripNotes';
 import WaypointList from '../WaypointList/WaypointList';
 
-export default function SidePanel({ trip, setTrip, legs }) {
+export default function SidePanel({ trip, setTrip, legs, setAvoidHighways, setAvoidTolls, avoidHighways, avoidTolls }) {
   const { user } = useUserContext();
   const [place, setPlace] = useState();
   const placeInputRef = useRef();
@@ -17,6 +17,10 @@ export default function SidePanel({ trip, setTrip, legs }) {
   const onPlaceChange = (place) => {
     setPlace(place);
   };
+
+  const defaultChecked = [];
+  if (avoidHighways) defaultChecked.push('highways');
+  if (avoidTolls) defaultChecked.push('tolls');
 
   const handleAddWaypoint = async () => {
     const newWaypoint = await createWaypoint(trip.id, {
@@ -45,12 +49,32 @@ export default function SidePanel({ trip, setTrip, legs }) {
       boxShadow="dark-lg"
       rounded="xl"
     >
-      <Heading
-        textAlign="center"
-        m="16px"
-        paddingBottom="6px"
-        borderBottom="3px solid #006D77"
-      >{trip.title}</Heading>
+      <Flex>
+        <Heading
+          textAlign="center"
+          m="16px"
+          paddingBottom="6px"
+          borderBottom="3px solid #006D77"
+        >{trip.title}</Heading>
+        <Popover placement='right'>
+          <PopoverTrigger>
+            <IconButton icon={<EditIcon />}></IconButton>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverHeader>Avoid:</PopoverHeader>
+            <PopoverBody>
+              <CheckboxGroup direction='column' defaultValue={defaultChecked}>
+                <Stack>
+                  <Checkbox value='highways' onChange={() => setAvoidHighways(!avoidHighways)}>Highways</Checkbox>
+                  <Checkbox value='tolls' onChange={() => setAvoidTolls(!avoidTolls)}>Tolls</Checkbox>
+                </Stack>
+              </CheckboxGroup>
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      </Flex>
       <Flex flexGrow="1" overflow="scroll" width="100%" direction="column" align="center">
         {legs && <WaypointList trip={trip} setTrip={setTrip} legs={legs} />}
       </Flex>

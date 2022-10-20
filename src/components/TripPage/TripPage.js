@@ -10,6 +10,8 @@ export default function TripPage() {
   const { id } = useParams();
   const { trip, setTrip, loading: isTripLoading } = useTrip(id);
   const [legs, setLegs] = useState(null);
+  const [avoidHighways, setAvoidHighways] = useState(false);
+  const [avoidTolls, setAvoidTolls] = useState(false);
 
   const onRouteChanged = useCallback((route) => setLegs(route.legs), [setLegs]);
 
@@ -28,8 +30,8 @@ export default function TripPage() {
         ]}
       />
       <Box pos="relative">
-        <MapEmbed waypoints={trip?.waypoints} onRouteChanged={onRouteChanged} />
-        {!isTripLoading && <SidePanel trip={trip} setTrip={setTrip} legs={legs} />}
+        <MapEmbed waypoints={trip?.waypoints} onRouteChanged={onRouteChanged} avoidHighways={avoidHighways} avoidTolls={avoidTolls} />
+        {!isTripLoading && <SidePanel trip={trip} setTrip={setTrip} legs={legs} setAvoidHighways={setAvoidHighways} setAvoidTolls={setAvoidTolls} avoidHighways={avoidHighways} avoidTolls={avoidTolls} />}
       </Box>
     </>
   );

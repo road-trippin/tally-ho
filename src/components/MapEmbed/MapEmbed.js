@@ -13,7 +13,7 @@ function createGooglePlace(waypoint) {
   return { placeId: waypoint.place_id };
 }
 
-export default function MapEmbed({ waypoints, onRouteChanged }) {
+export default function MapEmbed({ waypoints, onRouteChanged, avoidHighways, avoidTolls }) {
   const { isLoaded: isGoogleScriptLoaded } = useGoogleScript();
   const mapRef = useRef();
   const directionsRendererRef = useRef();
@@ -29,7 +29,9 @@ export default function MapEmbed({ waypoints, onRouteChanged }) {
         origin,
         destination,
         waypoints: googleWaypoints,
-        travelMode: 'DRIVING'
+        travelMode: 'DRIVING',
+        avoidHighways,
+        avoidTolls
       };
 
       // eslint-disable-next-line no-undef
@@ -55,7 +57,7 @@ export default function MapEmbed({ waypoints, onRouteChanged }) {
           console.error('Error while loading directions', error);
         });
     }
-  }, [isGoogleScriptLoaded, waypoints, onRouteChanged]);
+  }, [isGoogleScriptLoaded, waypoints, onRouteChanged, avoidHighways, avoidTolls]);
 
   if (!isGoogleScriptLoaded) return <></>;
   return (
