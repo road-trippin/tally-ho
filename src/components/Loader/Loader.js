@@ -1,5 +1,5 @@
 import React from 'react';
-import './custom.scss';
+import './Loader.scss';
 
 export default function Loader() {
   return (
