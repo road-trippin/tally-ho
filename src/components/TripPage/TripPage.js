@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import MapEmbed from '../MapEmbed/MapEmbed';
 import Header from '../Header/Header';
 import { useParams } from 'react-router-dom';
@@ -8,15 +8,17 @@ import { Box } from '@chakra-ui/react';
 
 export default function TripPage() {
   const { id } = useParams();
-  const { trip, setTrip } = useTrip(id);
+  const { trip, setTrip, loading: isTripLoading } = useTrip(id);
   const [legs, setLegs] = useState(null);
+
+  const onRouteChanged = useCallback((route) => setLegs(route.legs), [setLegs]);
 
   return (
     <>
       <Header />
       <Box pos="relative">
-        <MapEmbed {...trip} setLegs={setLegs} />
-        <SidePanel trip={trip} setTrip={setTrip} legs={legs} />
+        <MapEmbed waypoints={trip?.waypoints} onRouteChanged={onRouteChanged} />
+        {!isTripLoading && <SidePanel trip={trip} setTrip={setTrip} legs={legs} />}
       </Box>
     </>
   );
