@@ -8,7 +8,7 @@ import { Box } from '@chakra-ui/react';
 
 export default function TripPage() {
   const { id } = useParams();
-  const { trip, setTrip, loading: isTripLoading } = useTrip(id);
+  const { trip, setTrip } = useTrip(id);
   const [legs, setLegs] = useState(null);
 
   const onRouteChanged = useCallback((route) => setLegs(route.legs), [setLegs]);
@@ -29,7 +29,7 @@ export default function TripPage() {
       />
       <Box pos="relative">
         <MapEmbed waypoints={trip?.waypoints} onRouteChanged={onRouteChanged} avoidHighways={trip?.avoid_highways} avoidTolls={trip?.avoid_tolls} />
-        {!isTripLoading && <SidePanel trip={trip} setTrip={setTrip} legs={legs} />}
+        <SidePanel trip={trip} setTrip={setTrip} legs={legs} />
       </Box>
     </>
   );
