@@ -15,7 +15,18 @@ export default function TripPage() {
 
   return (
     <>
-      <Header />
+      <Header
+        navLinks={[
+          {
+            text: 'Home',
+            path: '/'
+          },
+          {
+            text: 'New Trip',
+            path: '/new-trip'
+          }
+        ]}
+      />
       <Box pos="relative">
         <MapEmbed waypoints={trip?.waypoints} onRouteChanged={onRouteChanged} />
         {!isTripLoading && <SidePanel trip={trip} setTrip={setTrip} legs={legs} />}
