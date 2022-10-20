@@ -31,6 +31,7 @@ export default function Waypoint({ trip, setTrip, name, id, leg }) {
           borderWidth="4px"
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
+          onMouseDown={() => setHover(false)}
           borderColor={hover ? '#FD9834' : 'white'}
         >
           {name}
