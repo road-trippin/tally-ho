@@ -1,5 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Wire+One&display=swap');
+
 .App {
   min-height: 100vh;
   display: grid;
   grid-template-rows: min-content auto;
+}
+
+.brand {
+  font-family: 'Wire One', sans-serif;
+}
+
+.title {
+  color: '#006D77';
+  font-size: 120px;
+  margin-top: -250px;
 }
