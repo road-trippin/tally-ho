@@ -1,20 +1,30 @@
 import { Input } from '@chakra-ui/react';
 import { Autocomplete } from '@react-google-maps/api';
-import { useRef, useState } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
 
 const minimumFields = ['place_id', 'name'];
 
-export default function PlaceInput({
+export default forwardRef(function PlaceInput({
+  onChange = () => {},
   placeholder,
-  fields = [],
-  onChange = () => {}
-}) {
+  fields = []
+}, ref) {
   const { isLoaded: isGoogleScriptLoaded } = useGoogleScript();
   const autocompleteRef = useRef();
 
   const [inputValue, setInputValue] = useState('');
   const [place, setPlace] = useState();
+
+  if (ref) {
+    ref.current = {
+      clear() {
+        setInputValue('');
+        setPlace();
+        onChange();
+      }
+    };
+  }
 
   const onPlaceChanged = () => {
     const newPlace = autocompleteRef.current.getPlace();
@@ -45,4 +55,4 @@ export default function PlaceInput({
       />
     </Autocomplete>
   );
-}
+});
