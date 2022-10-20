@@ -15,7 +15,6 @@ import './NewTripPage.css';
 import Header from '../Header/Header';
 import { useUserContext } from '../../context/UserContext';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
-import { Autocomplete } from '@react-google-maps/api';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { createTrip, createWaypoint } from '../../services/trips';
@@ -174,9 +173,10 @@ export default function NewTripPage() {
                   ref={originInputRef}
                   onChange={onOriginChange}
                   value={origin}
+                  placeholder="Rome, IL"
                 ></PlaceInput>
                 {isOriginError ? (
-                  <FormErrorMessage>Where you are starting....?</FormErrorMessage>
+                  <FormErrorMessage>Where you are starting?</FormErrorMessage>
                 ) : (
                   <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
                 )}
@@ -192,22 +192,14 @@ export default function NewTripPage() {
                 >
                   Destination:
                 </FormLabel>
-                {/* <Autocomplete
-                  fields={['place_id', 'name']}
-                  onLoad={(autocomplete) => {
-                    destinationRef.current = autocomplete;
-                  }}
-                  onPlaceChanged={handleDestinationChanged}
-                >
-                  <Input variant="outline" placeholder="Paris, Texas" id="destination" />
-                </Autocomplete> */}
                 <PlaceInput
                   ref={destinationInputRef}
                   onChange={onDestinationChange}
                   value={destination}
+                  placeholder="Paris, TX"
                 ></PlaceInput>
                 {isDestinationError ? (
-                  <FormErrorMessage>Where are you headed...?</FormErrorMessage>
+                  <FormErrorMessage>Where are you headed?</FormErrorMessage>
                 ) : (
                   <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
                 )}
