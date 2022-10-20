@@ -1,24 +1,21 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import { signOut } from '../../services/auth';
 import './Header.css';
 import {
-  Box,
   Flex,
   Text,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider
 } from '@chakra-ui/react';
 
 export default function Header() {
+
+  const history = useHistory();
 
   const { user, setUser } = useUserContext();
 
@@ -29,6 +26,7 @@ export default function Header() {
   const handleSignOut = async () => {
     await signOut();
     setUser(null);
+    history.push('/auth/sign-in');
   };
 
   return (
