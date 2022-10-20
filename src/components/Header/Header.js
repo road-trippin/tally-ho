@@ -31,7 +31,6 @@ export default function Header({ navLinks = [] }) {
     history.push('/auth/sign-in');
   };
 
-  navLinks = [...navLinks, { text: 'About', path: '/about' }];
   return (
     <header>
       <Flex
