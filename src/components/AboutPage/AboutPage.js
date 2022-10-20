@@ -57,7 +57,7 @@ export default function AboutPage() {
 function DevCard({ dev }) {
   // set functions for inserting names into paths when mapping through and calling for the links and images
   function photoFn(dev) {
-    return process.env.PUBLIC_URL + `/assets/${dev.name}.png`;
+    return process.env.PUBLIC_URL + `/assets/${dev.name}.jpg`;
   }
 
   function gitHubFn(dev) {
