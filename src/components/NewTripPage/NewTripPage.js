@@ -37,27 +37,23 @@ export default function NewTripPage() {
 
   let history = useHistory();
   const originInputRef = useRef();
-  const destinationRef = useRef();
-
-  const handleOriginChanged = () => {
-    const autocomplete = originInputRef.current;
-    if (autocomplete !== null) {
-      const { place_id, name } = autocomplete.getPlace();
-      setOrigin({ place_id, name });
-    }
-  };
+  const destinationInputRef = useRef();
 
   const onOriginChange = (origin) => {
     setOrigin(origin);
   };
 
-  const handleDestinationChanged = () => {
-    const autocomplete = destinationRef.current;
-    if (autocomplete !== null) {
-      const { place_id, name } = autocomplete.getPlace();
-      setDestination({ place_id, name });
-    }
+  const onDestinationChange = (destination) => {
+    setDestination(destination);
   };
+
+  // const handleDestinationChanged = () => {
+  //   const autocomplete = destinationRef.current;
+  //   if (autocomplete !== null) {
+  //     const { place_id, name } = autocomplete.getPlace();
+  //     setDestination({ place_id, name });
+  //   }
+  // };
 
   if (!user) <Redirect to="/auth/sign-in" />;
 
@@ -174,15 +170,6 @@ export default function NewTripPage() {
                 >
                   Origin:
                 </FormLabel>
-                {/* <Autocomplete
-                  fields={['place_id', 'name']}
-                  onLoad={(autocomplete) => {
-                    originRef.current = autocomplete;
-                  }}
-                  onPlaceChanged={handleOriginChanged}
-                >
-                <Input variant="outline" placeholder="Rome, Illinois" id="origin" />
-                </Autocomplete> */}
                 <PlaceInput
                   ref={originInputRef}
                   onChange={onOriginChange}
@@ -205,7 +192,7 @@ export default function NewTripPage() {
                 >
                   Destination:
                 </FormLabel>
-                <Autocomplete
+                {/* <Autocomplete
                   fields={['place_id', 'name']}
                   onLoad={(autocomplete) => {
                     destinationRef.current = autocomplete;
@@ -213,7 +200,12 @@ export default function NewTripPage() {
                   onPlaceChanged={handleDestinationChanged}
                 >
                   <Input variant="outline" placeholder="Paris, Texas" id="destination" />
-                </Autocomplete>
+                </Autocomplete> */}
+                <PlaceInput
+                  ref={destinationInputRef}
+                  onChange={onDestinationChange}
+                  value={destination}
+                ></PlaceInput>
                 {isDestinationError ? (
                   <FormErrorMessage>Where are you headed...?</FormErrorMessage>
                 ) : (
