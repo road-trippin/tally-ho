@@ -35,7 +35,6 @@ export default function HomePage() {
 
   if (!user) return <Redirect to="/auth/sign-in" />;
 
-  console.log('trips', trips);
   return (
     <>
       <Header />
