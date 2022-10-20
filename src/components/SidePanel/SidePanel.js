@@ -79,7 +79,7 @@ export default function SidePanel({ trip, setTrip, legs }) {
           paddingBottom="6px"
           borderBottom="3px solid #006D77"
         >{trip?.title}</Heading>
-        <Popover placement='right'>
+        {trip && <Popover placement='right'>
           <PopoverTrigger>
             <IconButton icon={<EditIcon />}></IconButton>
           </PopoverTrigger>
@@ -96,7 +96,7 @@ export default function SidePanel({ trip, setTrip, legs }) {
               </CheckboxGroup>
             </PopoverBody>
           </PopoverContent>
-        </Popover>
+        </Popover> }
       </Flex>
       {showLoader || !trip ? <Loader></Loader>
         :
