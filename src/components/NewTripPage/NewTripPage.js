@@ -1,11 +1,15 @@
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   FormLabel,
+  Heading,
   Input,
   SkeletonText,
+  Stack,
 } from '@chakra-ui/react';
 import './NewTripPage.css';
 import Header from '../Header/Header';
@@ -15,6 +19,8 @@ import { Autocomplete } from '@react-google-maps/api';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { createTrip, createWaypoint } from '../../services/trips';
+import newVan from '../../newVan.jpg';
+import 'animate.css';
 
 export default function NewTripPage() {
   const { user } = useUserContext();
@@ -98,39 +104,71 @@ export default function NewTripPage() {
   };
 
   return (
-    <div>
+    <>
       <Header />
-      <Box
-        display="flex"
-        alignItems="center"
-        flexDirection="column"
-        width={500}
-        boxShadow="md"
-        p="6"
-        rounded="md"
-        bg="white"
-      >
-        <h2>Start a New Trip!</h2>
-        {isLoaded && (
-          <Box>
-            <FormControl isRequired isInvalid={isTitleError}>
-              <FormLabel htmlFor="trip-name" requiredIndicator>
-                Trip Name:
+      {isLoaded && (
+        <Flex
+          position="relative"
+          alignItems="flex-end"
+          justifyContent="center"
+          flexDirection="column"
+          h="100%"
+          w="100%"
+          wrap="no-wrap"
+          backgroundImage={newVan}
+          backgroundPosition="bottom-left"
+          backgroundSize="cover"
+        >
+          <Box
+            width={500}
+            boxShadow="dark-lg"
+            p="6"
+            rounded="xl"
+            bg="white"
+            zIndex="1"
+            mr="200px"
+            padding="40px"
+            className="animate__animated animate__fadeInRightBig"
+          >
+            <Heading as="h1" size="lg" fontWeight="bold" color="#006D77" mb="20px">
+              Start a New Trip!
+            </Heading>
+            <Stack spacing={4}>
+              <FormControl isRequired isInvalid={isTitleError}>
+                <FormLabel
+                  htmlFor="trip-name"
+                  requiredIndicator
+                  as="h2"
+                  size="md"
+                  color="#FD9834"
+                  fontWeight="bold"
+                >
+                  Trip Name:
+                </FormLabel>
                 <Input
-                  variant="flushed"
+                  variant="outline"
                   placeholder="Best Trip Ever!"
                   id="trip-name"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
-              </FormLabel>
-              {isTitleError && (
-                <FormErrorMessage>Your trip is missing a cool name!</FormErrorMessage>
-              )}
-            </FormControl>
-            <FormControl isRequired isInvalid={isOriginError}>
-              <FormLabel htmlFor="origin" requiredIndicator>
-                Origin:
+                {isTitleError ? (
+                  <FormErrorMessage>Your trip is missing a cool name!</FormErrorMessage>
+                ) : (
+                  <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
+                )}
+              </FormControl>
+              <FormControl isRequired isInvalid={isOriginError}>
+                <FormLabel
+                  htmlFor="origin"
+                  requiredIndicator
+                  as="h2"
+                  size="md"
+                  color="#FD9834"
+                  fontWeight="bold"
+                >
+                  Origin:
+                </FormLabel>
                 <Autocomplete
                   fields={['place_id', 'name']}
                   onLoad={(autocomplete) => {
@@ -138,14 +176,25 @@ export default function NewTripPage() {
                   }}
                   onPlaceChanged={handleOriginChanged}
                 >
-                  <Input variant="flushed" placeholder="Rome, Illinois" id="origin" />
+                  <Input variant="outline" placeholder="Rome, Illinois" id="origin" />
                 </Autocomplete>
-              </FormLabel>
-              {isOriginError && <FormErrorMessage>Where you are starting....?</FormErrorMessage>}
-            </FormControl>
-            <FormControl isRequired isInvalid={isDestinationError}>
-              <FormLabel htmlFor="destination" requiredIndicator>
-                Destination:
+                {isOriginError ? (
+                  <FormErrorMessage>Where you are starting....?</FormErrorMessage>
+                ) : (
+                  <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
+                )}
+              </FormControl>
+              <FormControl isRequired isInvalid={isDestinationError}>
+                <FormLabel
+                  htmlFor="destination"
+                  requiredIndicator
+                  as="h2"
+                  size="md"
+                  color="#FD9834"
+                  fontWeight="bold"
+                >
+                  Destination:
+                </FormLabel>
                 <Autocomplete
                   fields={['place_id', 'name']}
                   onLoad={(autocomplete) => {
@@ -153,15 +202,29 @@ export default function NewTripPage() {
                   }}
                   onPlaceChanged={handleDestinationChanged}
                 >
-                  <Input variant="flushed" placeholder="Paris, Texas" id="destination" />
+                  <Input variant="outline" placeholder="Paris, Texas" id="destination" />
                 </Autocomplete>
-              </FormLabel>
-              {isDestinationError && <FormErrorMessage>Where are you headed...?</FormErrorMessage>}
-            </FormControl>
-            <Button onClick={handleAddTrip}>Embark!</Button>
+                {isDestinationError ? (
+                  <FormErrorMessage>Where are you headed...?</FormErrorMessage>
+                ) : (
+                  <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
+                )}
+              </FormControl>
+              <Button
+                variant="solid"
+                shadow="2xl"
+                colorScheme="teal"
+                marginY="20px"
+                mt="20px"
+                size="lg"
+                onClick={handleAddTrip}
+              >
+                Embark!
+              </Button>
+            </Stack>
           </Box>
-        )}
-      </Box>
-    </div>
+        </Flex>
+      )}
+    </>
   );
 }

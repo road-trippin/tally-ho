@@ -1,60 +1,70 @@
-import { SkeletonText } from '@chakra-ui/react';
-import { DirectionsService, GoogleMap } from '@react-google-maps/api';
-import { useRef, useState } from 'react';
+import { GoogleMap } from '@react-google-maps/api';
+import { useEffect, useRef } from 'react';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
 
-const mapContainerStyle = { width: '85%', height: '700px' };
+const mapContainerStyle = { width: '100%', height: '100%' };
 const mapOptions = { streetViewControl: false, mapTypeControl: false, fullscreenControl: false };
 
-export default function MapEmbed({ waypoints, setLegs }) {
-  const [shouldLoadDirections, setShouldLoadDirections] = useState(true);
-  const [prevWaypoints, setPrevWaypoints] = useState(waypoints);
-  const { isLoaded } = useGoogleScript();
+// These values were chosen to be center the US
+const initialMapZoom = 4;
+const initialMapCenter = { lat: 40, lng: -100 };
+
+function createGooglePlace(waypoint) {
+  return { placeId: waypoint.place_id };
+}
+
+export default function MapEmbed({ waypoints, onRouteChanged }) {
+  const { isLoaded: isGoogleScriptLoaded } = useGoogleScript();
   const mapRef = useRef();
   const directionsRendererRef = useRef();
 
-  if (waypoints !== prevWaypoints) {
-    setPrevWaypoints(waypoints);
-    setShouldLoadDirections(true);
-  }
+  useEffect(() => {
+    if (isGoogleScriptLoaded && waypoints && waypoints.length >= 2) {
+      // NOTE: we are assuming the waypoints are in sorted order.
+      const origin = createGooglePlace(waypoints.at(0));
+      const destination = createGooglePlace(waypoints.at(-1));
+      const googleWaypoints = waypoints.slice(1, -1).map((waypoint) => ({ location: createGooglePlace(waypoint) }));
 
-  const directionsResultCallback = (response) => {
-    if (response && response.status === 'OK') {
-      setShouldLoadDirections(false);
+      const directionRequest = {
+        origin,
+        destination,
+        waypoints: googleWaypoints,
+        travelMode: 'DRIVING'
+      };
 
-      setLegs(response.routes[0].legs);
-
-      // Unbind previous direction renderer from map so it doesn't continue displaying an old route.
-      directionsRendererRef.current?.setMap(null);
-
-      // Create a new directions renderer with the new route
       // eslint-disable-next-line no-undef
-      directionsRendererRef.current = new google.maps.DirectionsRenderer({
-        directions: response,
-        map: mapRef.current
-      });
-    }
-  };
+      const directionsService = new google.maps.DirectionsService();
+      directionsService.route(directionRequest)
+        .then(directionsResult => {
+          if (directionsResult.status === 'OK') {
+            onRouteChanged(directionsResult.routes[0]);
 
-  if (!isLoaded) return <SkeletonText />;
+            // Unbind previous direction renderer from map so it doesn't continue displaying an old route.
+            directionsRendererRef.current?.setMap(null);
+
+            // Create a new directions renderer with the new route
+            // eslint-disable-next-line no-undef
+            directionsRendererRef.current = new google.maps.DirectionsRenderer({
+              directions: directionsResult,
+              map: mapRef.current
+            });
+          }
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.error('Error while loading directions', error);
+        });
+    }
+  }, [isGoogleScriptLoaded, waypoints, onRouteChanged]);
+
+  if (!isGoogleScriptLoaded) return <></>;
   return (
     <GoogleMap
+      zoom={initialMapZoom}
+      center={initialMapCenter}
       mapContainerStyle={mapContainerStyle}
       options={mapOptions}
       onLoad={map => mapRef.current = map}
-    >
-      {waypoints && waypoints.length >= 2 && shouldLoadDirections && (
-        <DirectionsService
-          callback={directionsResultCallback}
-          options={{
-            // NOTE: we are assuming the waypoints are in sorted order.
-            origin: { placeId: waypoints[0].place_id },
-            destination: { placeId: waypoints[waypoints.length - 1].place_id },
-            waypoints: waypoints.slice(1, -1).map((waypoint) => ({ location: { placeId: waypoint.place_id } })),
-            travelMode: 'DRIVING',
-          }}
-        />
-      )}
-    </GoogleMap>
+    />
   );
 }
