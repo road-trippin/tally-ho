@@ -1,6 +1,21 @@
 .header-container {
     display: flex;
     flex-direction: row;
-    
+
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+    height: 100px;
+
+}
+
+#tally-ho {
+    color: black;
+    font-size: 60px;
+    padding: 15px;
+    font-weight: 300;
+    align-items: center;
 
 }

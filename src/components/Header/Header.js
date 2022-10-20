@@ -5,6 +5,7 @@ import { useUserContext } from '../../context/UserContext';
 import { signOut } from '../../services/auth';
 import './Header.css';
 import {
+  Box,
   Flex,
   Text,
   Menu,
@@ -39,9 +40,16 @@ export default function Header({ navLinks = [] }) {
         alignItems="center"
         color="white"
       >
-        <Link to="/">
-          <Text fontSize="3xl" fontWeight="bold">Tally Ho!</Text>
-        </Link>
+        <Box>
+          <span className="header-container">
+            <img id="logo" src={ process.env.PUBLIC_URL + '/logo.png' } style={ {
+              height: '50',
+              width: '50'
+            } } alt="logo" />
+            <Text fontSize="3xl" className="brand" id="tally-ho" fontWeight="bold">Tally Ho!</Text>
+          </span>
+        </Box>
+
         { user && (
 
           <Menu>
