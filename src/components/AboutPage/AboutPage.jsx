@@ -1,14 +1,60 @@
+import { Box, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
 import Header from '../Header/Header';
+import background from '../../authBG.jpg';
 
 export default function AboutPage() {
   const devs = [
-    { name: 'David Quennoz', gitHubUserName: 'david-qz', linkedInUserName: 'david-quennoz' },
-    { name: 'Dillon Brock', gitHubUserName: 'dillon-brock', linkedInUserName: 'dillon-brock' },
-    { name: 'Allison Ause', gitHubUserName: 'Allison-Ause', linkedInUserName: 'allisonause' },
-    { name: 'Adam Robson', gitHubUserName: 'Adam-Robson', linkedInUserName: 'adamrrobson' }
+    {
+      name: 'David Quennoz',
+      gitHubUserName: 'david-qz',
+      linkedInUserName: 'david-quennoz'
+    },
+    { name: 'Dillon Brock',
+      gitHubUserName: 'dillon-brock',
+      linkedInUserName: 'dillon-brock'
+    },
+    { name: 'Allison Ause',
+      gitHubUserName: 'Allison-Ause',
+      linkedInUserName: 'allisonause'
+    },
+    { name: 'Adam Robson',
+      gitHubUserName: 'Adam-Robson',
+      linkedInUserName: 'adamrrobson',
+      spotifyLink: 'https://open.spotify.com/artist/4NrRxIaVhlouvojuHGq62y?si=WeyC7-d_QUaTgQQafwlQ4g'
+    }
   ];
 
+  return (
+    <>
+      <Header navLinks={[{ text: 'Home', path: '/' }]} />
+      <Box
+        padding="20px"
+        backgroundImage={background}
+        backgroundPosition="bottom-left"
+        backgroundSize="cover"
+      >
+        <Text
+          textAlign="center"
+          fontSize="5xl"
+          fontWeight="light"
+          marginY="40px"
+        >
+          About Us
+        </Text>
+        <Flex
+          flexFlow="row wrap"
+          justifyContent="center"
+          gap="50"
+        >
+          {devs.map((dev, index) => <DevCard key={index} dev={dev} />)}
+        </Flex>
+      </Box>
+    </>
+  );
+}
+
+function DevCard({ dev }) {
   // set functions for inserting names into paths when mapping through and calling for the links and images
   function photoFn(dev) {
     return process.env.PUBLIC_URL + `/assets/${dev.name}.png`;
@@ -27,33 +73,35 @@ export default function AboutPage() {
   }
 
   return (
-    <>
-      <Header
-        navLinks={[{ text: 'Home', path: '/' }]}
-      />
-      <section>
-        <h2 className="title">TALLY-HO!</h2>
-        <h4 className="subtitle">ABOUT US</h4>
-        {
-          devs.map((dev, index) => (
-            <div key={ index }>
-              <a href={ gitHubFn(dev) } target="_blank noreferrer">
-                <img src={ photoFn(dev) } />
-                <p>{ dev.name }</p>
-                <p>this is for something about me</p>
-              </a>
+    <VStack
+      backgroundColor="white"
+      padding="20px"
+      rounded="2xl"
+      shadow="dark-lg"
+    >
+      <Box rounded="2xl" overflow="hidden">
+        <a href={ gitHubFn(dev) } target="_blank noreferrer">
+          <img width="250" src={ photoFn(dev) } />
+        </a>
+      </Box>
 
-              <a href={ gitHubFn(dev) } target="_blank noreferrer">
-                <img width={ '32'} src={ iconFn('gitHubIcon') } alt="gitHub-icon" />
-              </a>
+      <Text fontSize="1.4rem">{ dev.name }</Text>
 
-              <a href={ linkedInFn(dev) } target="_blank noreferrer">
-                <img width={ '32'} src={ iconFn('linkedInIcon') } alt="linkedIn-icon" />
-              </a>
-            </div>
-          ))
+      <HStack>
+        <a href={ gitHubFn(dev) } target="_blank noreferrer">
+          <img width="32" height="32" src={ iconFn('gitHubIcon') } alt="gitHub-icon" />
+        </a>
+
+        <a href={ linkedInFn(dev) } target="_blank noreferrer">
+          <img width="32" height="32" src={ iconFn('linkedInIcon') } alt="linkedIn-icon" />
+        </a>
+
+        {dev.spotifyLink &&
+          <a href={dev.spotifyLink} target="_blank noreferrer">
+            <img width="32" height="32" src={ iconFn('spotifyIcon') } alt="linkedIn-icon" />
+          </a>
         }
-      </section>
-    </>
+      </HStack>
+    </VStack>
   );
 }
