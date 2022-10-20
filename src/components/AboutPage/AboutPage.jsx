@@ -44,8 +44,7 @@ const AboutPage = () => {
     <section>
 
       <h2 className="title">TALLY-HO!</h2>
-      <h4 className="mission">......</h4>
-      <strong>Don&apos;t forget your trips!</strong>
+      <p><strong>ABOUT US</strong></p>
 
       {
         devs.map((dev) => {
