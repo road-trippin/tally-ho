@@ -1,65 +1,53 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-
-const AboutPage = () => {
-
+export default function AboutPage() {
   const devs = [
-    {
-      local: 'David Quennoz',
-      git: 'david-qz',
-      linked: 'david-quennoz'
-    },
-    {
-      local: 'Dillon',
-      git: 'dillon-brock'
-    },
-    {
-      local: 'Allison',
-      git: 'Allison-Ause',
-      linked: 'allisonause'
-    },
-    {
-      local: 'Adam',
-      git: 'Adam-Robson',
-      linked: 'adamrrobson'
-    }];
+    { name: 'David Quennoz', gitHubUserName: 'david-qz', linkedInUserName: 'david-quennoz' },
+    { name: 'Dillon Brock', gitHubUserName: 'dillon-brock', linkedInUserName: 'dillon-brock' },
+    { name: 'Allison Ause', gitHubUserName: 'Allison-Ause', linkedInUserName: 'allisonause' },
+    { name: 'Adam Robson', gitHubUserName: 'Adam-Robson', linkedInUserName: 'adamrrobson' }
+  ];
 
-  const localDriveFn = (dev) => {
-    const localDriveLink = `process.env.PUBLIC_URL/assets/${dev}.png`;
-    return localDriveLink;
-  };
+  // set functions for inserting names into paths when mapping through and calling for the links and images
+  function photoFn(dev) {
+    return process.env.PUBLIC_URL + `/assets/${dev.name}.png`;
+  }
 
-  const gitHubFn = (dev) => {
-    const gitHubLink = `url(www.github.com/${dev})`;
-    return gitHubLink;
-  };
+  function gitHubFn(dev) {
+    return `https://www.github.com/${dev.gitHubUserName}`;
+  }
 
-  const linkedInFn = (dev) => {
-    const linkedInLink = `url(www.linkedin.com/in/${dev})`;
-    return linkedInLink;
-  };
+  function linkedInFn(dev) {
+    return `https://www.linkedin.com/in/${dev.linkedInUserName}`;
+  }
+
+  function iconFn(icon) {
+    return process.env.PUBLIC_URL + `/assets/${icon}.png`;
+  }
 
   return (
     <section>
-
       <h2 className="title">TALLY-HO!</h2>
-      <p><strong>ABOUT US</strong></p>
-
+      <h4 className="subtitle">ABOUT US</h4>
       {
-        devs.map((dev) => {
-          <div>
-            <Link to={ gitHubFn(dev.git) } target="_blank">{ localDriveFn(dev.local) }</Link>
-            <br />
-            <Link to={ gitHubFn(dev.git) } target="_blank">{ dev.local }</Link>
-            <br />
-            <Link to={ linkedInFn(dev.linked) } target="_blank">this is something about me</Link>
-            <br />
-          </div>;
-        })
+        devs.map((dev, index) => (
+          <div key={ index }>
+            <a href={ gitHubFn(dev) } target="_blank noreferrer">
+              <img src={ photoFn(dev) } />
+              <p>{ dev.name }</p>
+              <p>this is for something about me</p>
+            </a>
+
+            <a href={ gitHubFn(dev) } target="_blank noreferrer">
+              <img width={ '32'} src={ iconFn('gitHubIcon') } alt="gitHub-icon" />
+            </a>
+
+            <a href={ linkedInFn(dev) } target="_blank noreferrer">
+              <img width={ '32'} src={ iconFn('linkedInIcon') } alt="linkedIn-icon" />
+            </a>
+          </div>
+        ))
       }
     </section>
   );
-};
-
-export default AboutPage;
+}
