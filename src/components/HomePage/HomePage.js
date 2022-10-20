@@ -1,5 +1,5 @@
 import Header from '../Header/Header';
-import { Box, Button, Flex, Heading, IconButton, Image, Stack } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, IconButton, Image, Stack, Text } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
@@ -35,6 +35,7 @@ export default function HomePage() {
 
   if (!user) return <Redirect to="/auth/sign-in" />;
 
+  console.log('trips', trips);
   return (
     <>
       <Header />
@@ -90,27 +91,31 @@ export default function HomePage() {
                 mb={{ base: 12, md: 0 }}
               >
                 <Stack spacing={5}>
-                  {trips.map((trip) => (
-                    <Flex key={trip.id} justify="space-between">
-                      {/* <Box textAlign="left"> */}
-                      <Button
-                        variant="ghost"
-                        colorScheme="teal"
-                        onClick={() => handleEditTrip(trip.id)}
-                      >
-                        {trip.title}
-                      </Button>
+                  {trips.length > 0 ? (
+                    trips.map((trip) => (
+                      <Flex key={trip.id} justify="space-between">
+                        <Button
+                          variant="ghost"
+                          colorScheme="teal"
+                          onClick={() => handleEditTrip(trip.id)}
+                        >
+                          {trip.title}
+                        </Button>
 
-                      <IconButton
-                        aria-label="Delete Item"
-                        icon={<DeleteIcon />}
-                        variant="ghost"
-                        colorScheme="teal"
-                        onClick={() => handleDeleteTrip(trip.id, trip.title)}
-                      />
-                      {/* </Box> */}
+                        <IconButton
+                          aria-label="Delete Item"
+                          icon={<DeleteIcon />}
+                          variant="ghost"
+                          colorScheme="teal"
+                          onClick={() => handleDeleteTrip(trip.id, trip.title)}
+                        />
+                      </Flex>
+                    ))
+                  ) : (
+                    <Flex>
+                      <Text color="teal">You currently have no saved trips.</Text>
                     </Flex>
-                  ))}
+                  )}
                 </Stack>
               </Box>
               <span>{deleteMessage}</span>
