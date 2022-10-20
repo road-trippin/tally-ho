@@ -21,6 +21,7 @@ import { useRef, useState } from 'react';
 import { createTrip, createWaypoint } from '../../services/trips';
 import newVan from '../../newVan.jpg';
 import 'animate.css';
+import PlaceInput from '../PlaceInput/PlaceInput';
 
 export default function NewTripPage() {
   const { user } = useUserContext();
@@ -35,15 +36,19 @@ export default function NewTripPage() {
   const [title, setTitle] = useState('');
 
   let history = useHistory();
-  const originRef = useRef();
+  const originInputRef = useRef();
   const destinationRef = useRef();
 
   const handleOriginChanged = () => {
-    const autocomplete = originRef.current;
+    const autocomplete = originInputRef.current;
     if (autocomplete !== null) {
       const { place_id, name } = autocomplete.getPlace();
       setOrigin({ place_id, name });
     }
+  };
+
+  const onOriginChange = (origin) => {
+    setOrigin(origin);
   };
 
   const handleDestinationChanged = () => {
@@ -169,15 +174,20 @@ export default function NewTripPage() {
                 >
                   Origin:
                 </FormLabel>
-                <Autocomplete
+                {/* <Autocomplete
                   fields={['place_id', 'name']}
                   onLoad={(autocomplete) => {
                     originRef.current = autocomplete;
                   }}
                   onPlaceChanged={handleOriginChanged}
                 >
-                  <Input variant="outline" placeholder="Rome, Illinois" id="origin" />
-                </Autocomplete>
+                <Input variant="outline" placeholder="Rome, Illinois" id="origin" />
+                </Autocomplete> */}
+                <PlaceInput
+                  ref={originInputRef}
+                  onChange={onOriginChange}
+                  value={origin}
+                ></PlaceInput>
                 {isOriginError ? (
                   <FormErrorMessage>Where you are starting....?</FormErrorMessage>
                 ) : (
