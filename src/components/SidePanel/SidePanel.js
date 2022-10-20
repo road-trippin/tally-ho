@@ -98,7 +98,7 @@ export default function SidePanel({ trip, setTrip, legs }) {
           </PopoverContent>
         </Popover>
       </Flex>
-      {showLoader && trip ? <Loader></Loader>
+      {showLoader || !trip ? <Loader></Loader>
         :
         <>
           <Flex flexGrow="1" overflow="scroll" width="100%" direction="column" align="center">
