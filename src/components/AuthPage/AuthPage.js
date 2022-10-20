@@ -15,7 +15,6 @@ import {
   Text,
 } from '@chakra-ui/react';
 import Header from '../Header/Header';
-// import authBackground from '../../authBackground.jpg';
 import authBackground from '../../authBG.jpg';
 
 export default function AuthPage() {
@@ -71,13 +70,15 @@ export default function AuthPage() {
       <Header />
       <Flex
         justifyContent="center"
-        alignItems="start"
+        alignItems="center"
+        direction="column"
         backgroundImage={authBackground}
         backgroundPosition="bottom-left"
         backgroundSize="cover"
       >
+        <span className="brand title">ADVENTURE AWAITS!</span>
         <Box
-          marginTop="100px"
+          marginTop="50px"
           width="80%"
           maxWidth="450px"
           boxShadow="dark-lg"
