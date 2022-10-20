@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import Header from '../Header/Header';
 import background from '../../authBG.jpg';
@@ -7,25 +7,21 @@ export default function AboutPage() {
   const devs = [
     {
       name: 'David Quennoz',
-      blurb: 'loves listening to The Mountain Goats until my passengers kick me out.',
       gitHubUserName: 'david-qz',
       linkedInUserName: 'david-quennoz',
     },
     {
       name: 'Dillon Brock',
-      blurb: 'loves listening to music with their partner.',
       gitHubUserName: 'dillon-brock',
       linkedInUserName: 'dillon-brock'
     },
     {
       name: 'Allison Ause',
-      blurb: 'loves finding roadside fruit stands and local textiles.',
       gitHubUserName: 'Allison-Ause',
       linkedInUserName: 'allisonause'
     },
     {
       name: 'Adam Robson',
-      blurb: 'loves open windows, the music up, and hwy 1!',
       gitHubUserName: 'Adam-Robson',
       linkedInUserName: 'adamrrobson',
       spotifyLink: 'https://open.spotify.com/artist/4NrRxIaVhlouvojuHGq62y?si=WeyC7-d_QUaTgQQafwlQ4g'
@@ -46,12 +42,11 @@ export default function AboutPage() {
           textAlign="center"
           marginY="40px"
         >
-          About Us
+          ABOUT US
         </Text>
         <Flex
           flexFlow="row wrap"
           justifyContent="center"
-          // alignItems="flex-start"
           gap="50"
         >
           {devs.map((dev, index) => <DevCard key={index} dev={dev} />)}
@@ -80,14 +75,14 @@ function DevCard({ dev }) {
   }
 
   return (
-    <VStack
+    <Flex
+      direction="column"
       backgroundColor="white"
       padding="25px"
       rounded="2xl"
       shadow="dark-lg"
       min-width="320px"
       width="400px"
-      spacing="30px"
     >
       <Box rounded="2xl" overflow="hidden">
         <a href={ gitHubFn(dev) } target="_blank noreferrer">
@@ -95,16 +90,17 @@ function DevCard({ dev }) {
         </a>
       </Box>
 
-      <Text
-        fontSize="1.4rem"
-        textAlign="center"
-        fontStyle="italic"
-        flexGrow="1"
-      >
-        {`${dev.name} ${dev.blurb}`}
-      </Text>
+      <Box marginTop="10px" flexGrow="1">
+        <Text fontSize="2rem" fontWeight="medium">
+          {dev.name}
+        </Text>
+      </Box>
 
-      <HStack spacing="20px">
+      <Flex
+        marginTop="40px"
+        justifyContent="center"
+        gap="20px"
+      >
         <a href={ gitHubFn(dev) } target="_blank noreferrer">
           <img width="42" height="42" src={ iconFn('gitHubIcon') } alt="gitHub-icon" />
         </a>
@@ -118,7 +114,7 @@ function DevCard({ dev }) {
             <img width="42" height="42" src={ iconFn('spotifyIcon') } alt="linkedIn-icon" />
           </a>
         }
-      </HStack>
-    </VStack>
+      </Flex>
+    </Flex>
   );
 }
