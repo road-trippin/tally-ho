@@ -1,4 +1,4 @@
-import { DeleteIcon } from '@chakra-ui/icons';
+import { ArrowDownIcon, DeleteIcon } from '@chakra-ui/icons';
 import { Box, Flex, IconButton } from '@chakra-ui/react';
 import { useState } from 'react';
 import { deleteWaypoint } from '../../services/trips';
@@ -36,7 +36,12 @@ export default function Waypoint({ trip, setTrip, name, id, leg }) {
           <IconButton onClick={handleDeleteWaypoint} icon={<DeleteIcon />} variant="ghost" colorScheme="teal" isDisabled={trip.waypoints.length <= 2} ></IconButton>
         </Flex>
       </Box>
-      {leg && <span className="distance">{leg.distance.text}, {leg.duration.text}</span>}
+      {leg && <Flex direction="column" align="center" width="100%" height="20px">
+        {hover ? 
+          <span className="distance">{leg.duration.text}</span>
+          : <ArrowDownIcon />
+        }
+      </Flex>}
     </div>
 
   );

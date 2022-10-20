@@ -9,6 +9,7 @@ export default function WaypointList({ waypoints, setTrip, trip, legs }) {
   const [totalDistance, setTotalDistance] = useState('');
   const [totalTime, setTotalTime] = useState('');
   const [prevLegs, setPrevLegs] = useState([]);
+  const [randomKey, setRandomKey] = useState(0);
 
   const positionedWaypoints = waypoints.map((waypoint, i) => ({ ...waypoint, position: i }));
   
@@ -62,6 +63,7 @@ export default function WaypointList({ waypoints, setTrip, trip, legs }) {
 
   if (legs !== prevLegs) {
     setPrevLegs(legs);
+    setRandomKey(Math.random());
     setTotalDistance(getTotalDistance());
     setTotalTime(getTotalTime());
   }
@@ -83,12 +85,16 @@ export default function WaypointList({ waypoints, setTrip, trip, legs }) {
     }
   };
 
-
   return (
     <Box w="250px">
-      <Draggable onPosChange={onPosChange} key={legs}>
+      <Draggable onPosChange={onPosChange} key={randomKey}>
         {waypoints.map((waypoint, i) => (
-          <Waypoint key={waypoint.id} {...waypoint} trip={trip} setTrip={setTrip} leg={i < legs.length ? legs[i] : null} />
+          <Waypoint
+            key={waypoint.id}
+            {...waypoint} trip={trip}
+            setTrip={setTrip}
+            leg={i < legs.length ? legs[i] : null}
+          />
         ))}
       </Draggable>
       <Flex justify="space-around">
