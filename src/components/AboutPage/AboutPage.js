@@ -7,18 +7,25 @@ export default function AboutPage() {
   const devs = [
     {
       name: 'David Quennoz',
+      blurb: 'loves listening to The Mountain Goats until my passengers kick me out.',
       gitHubUserName: 'david-qz',
-      linkedInUserName: 'david-quennoz'
+      linkedInUserName: 'david-quennoz',
     },
-    { name: 'Dillon Brock',
+    {
+      name: 'Dillon Brock',
+      blurb: 'loves listening to music with their partner.',
       gitHubUserName: 'dillon-brock',
       linkedInUserName: 'dillon-brock'
     },
-    { name: 'Allison Ause',
+    {
+      name: 'Allison Ause',
+      blurb: 'loves finding roadside fruit stands and local textiles.',
       gitHubUserName: 'Allison-Ause',
       linkedInUserName: 'allisonause'
     },
-    { name: 'Adam Robson',
+    {
+      name: 'Adam Robson',
+      blurb: 'loves open windows, the music up, and hwy 1!',
       gitHubUserName: 'Adam-Robson',
       linkedInUserName: 'adamrrobson',
       spotifyLink: 'https://open.spotify.com/artist/4NrRxIaVhlouvojuHGq62y?si=WeyC7-d_QUaTgQQafwlQ4g'
@@ -44,7 +51,7 @@ export default function AboutPage() {
         <Flex
           flexFlow="row wrap"
           justifyContent="center"
-          alignItems="flex-start"
+          // alignItems="flex-start"
           gap="50"
         >
           {devs.map((dev, index) => <DevCard key={index} dev={dev} />)}
@@ -75,30 +82,40 @@ function DevCard({ dev }) {
   return (
     <VStack
       backgroundColor="white"
-      padding="20px"
+      padding="25px"
       rounded="2xl"
       shadow="dark-lg"
+      min-width="320px"
+      width="400px"
+      spacing="30px"
     >
       <Box rounded="2xl" overflow="hidden">
         <a href={ gitHubFn(dev) } target="_blank noreferrer">
-          <img width="320" src={ photoFn(dev) } />
+          <img src={ photoFn(dev) } />
         </a>
       </Box>
 
-      <Text fontSize="1.4rem">{ dev.name }</Text>
+      <Text
+        fontSize="1.4rem"
+        textAlign="center"
+        fontStyle="italic"
+        flexGrow="1"
+      >
+        {`${dev.name} ${dev.blurb}`}
+      </Text>
 
-      <HStack>
+      <HStack spacing="20px">
         <a href={ gitHubFn(dev) } target="_blank noreferrer">
-          <img width="32" height="32" src={ iconFn('gitHubIcon') } alt="gitHub-icon" />
+          <img width="42" height="42" src={ iconFn('gitHubIcon') } alt="gitHub-icon" />
         </a>
 
         <a href={ linkedInFn(dev) } target="_blank noreferrer">
-          <img width="32" height="32" src={ iconFn('linkedInIcon') } alt="linkedIn-icon" />
+          <img width="42" height="42" src={ iconFn('linkedInIcon') } alt="linkedIn-icon" />
         </a>
 
         {dev.spotifyLink &&
           <a href={dev.spotifyLink} target="_blank noreferrer">
-            <img width="32" height="32" src={ iconFn('spotifyIcon') } alt="linkedIn-icon" />
+            <img width="42" height="42" src={ iconFn('spotifyIcon') } alt="linkedIn-icon" />
           </a>
         }
       </HStack>
