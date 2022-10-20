@@ -15,12 +15,12 @@ import './NewTripPage.css';
 import Header from '../Header/Header';
 import { useUserContext } from '../../context/UserContext';
 import { useGoogleScript } from '../../context/GoogleScriptContext';
-import { Autocomplete } from '@react-google-maps/api';
 import { Redirect, useHistory } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { createTrip, createWaypoint } from '../../services/trips';
 import newVan from '../../newVan.jpg';
 import 'animate.css';
+import PlaceInput from '../PlaceInput/PlaceInput';
 
 export default function NewTripPage() {
   const { user } = useUserContext();
@@ -35,24 +35,24 @@ export default function NewTripPage() {
   const [title, setTitle] = useState('');
 
   let history = useHistory();
-  const originRef = useRef();
-  const destinationRef = useRef();
+  const originInputRef = useRef();
+  const destinationInputRef = useRef();
 
-  const handleOriginChanged = () => {
-    const autocomplete = originRef.current;
-    if (autocomplete !== null) {
-      const { place_id, name } = autocomplete.getPlace();
-      setOrigin({ place_id, name });
-    }
+  const onOriginChange = (origin) => {
+    setOrigin(origin);
   };
 
-  const handleDestinationChanged = () => {
-    const autocomplete = destinationRef.current;
-    if (autocomplete !== null) {
-      const { place_id, name } = autocomplete.getPlace();
-      setDestination({ place_id, name });
-    }
+  const onDestinationChange = (destination) => {
+    setDestination(destination);
   };
+
+  // const handleDestinationChanged = () => {
+  //   const autocomplete = destinationRef.current;
+  //   if (autocomplete !== null) {
+  //     const { place_id, name } = autocomplete.getPlace();
+  //     setDestination({ place_id, name });
+  //   }
+  // };
 
   if (!user) <Redirect to="/auth/sign-in" />;
 
@@ -176,17 +176,14 @@ export default function NewTripPage() {
                 >
                   Origin:
                 </FormLabel>
-                <Autocomplete
-                  fields={['place_id', 'name']}
-                  onLoad={(autocomplete) => {
-                    originRef.current = autocomplete;
-                  }}
-                  onPlaceChanged={handleOriginChanged}
-                >
-                  <Input variant="outline" placeholder="Rome, Illinois" id="origin" />
-                </Autocomplete>
+                <PlaceInput
+                  ref={originInputRef}
+                  onChange={onOriginChange}
+                  value={origin}
+                  placeholder="Rome, IL"
+                ></PlaceInput>
                 {isOriginError ? (
-                  <FormErrorMessage>Where you are starting....?</FormErrorMessage>
+                  <FormErrorMessage>Where you are starting?</FormErrorMessage>
                 ) : (
                   <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
                 )}
@@ -202,17 +199,14 @@ export default function NewTripPage() {
                 >
                   Destination:
                 </FormLabel>
-                <Autocomplete
-                  fields={['place_id', 'name']}
-                  onLoad={(autocomplete) => {
-                    destinationRef.current = autocomplete;
-                  }}
-                  onPlaceChanged={handleDestinationChanged}
-                >
-                  <Input variant="outline" placeholder="Paris, Texas" id="destination" />
-                </Autocomplete>
+                <PlaceInput
+                  ref={destinationInputRef}
+                  onChange={onDestinationChange}
+                  value={destination}
+                  placeholder="Paris, TX"
+                ></PlaceInput>
                 {isDestinationError ? (
-                  <FormErrorMessage>Where are you headed...?</FormErrorMessage>
+                  <FormErrorMessage>Where are you headed?</FormErrorMessage>
                 ) : (
                   <FormHelperText visibility="hidden">&nbsp;</FormHelperText>
                 )}
