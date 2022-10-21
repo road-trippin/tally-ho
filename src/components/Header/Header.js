@@ -34,7 +34,6 @@ export default function Header({ navLinks = [] }) {
   return (
     <header>
       <Flex
-        padding="10px"
         backgroundColor="#319795"
         justifyContent="space-between"
         alignItems="center"
@@ -43,8 +42,8 @@ export default function Header({ navLinks = [] }) {
         <Box>
           <span className="header-container">
             <img id="logo" src={ process.env.PUBLIC_URL + '/logo.png' } style={ {
-              height: '50',
-              width: '50'
+              height: '10',
+              width: '10'
             } } alt="logo" />
             <Text fontSize="3xl" className="brand" id="tally-ho" fontWeight="bold">TALLYHO!</Text>
           </span>
@@ -54,7 +53,7 @@ export default function Header({ navLinks = [] }) {
 
           <Menu>
             <MenuButton>
-              <HamburgerIcon w={35} h={35}></HamburgerIcon>
+              <HamburgerIcon marginRight="25px" w={35} h={35}></HamburgerIcon>
             </MenuButton>
             <MenuList color="teal">
               <MenuGroup title="Navigation">
