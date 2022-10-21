@@ -5,7 +5,6 @@ import { useUserContext } from '../../context/UserContext';
 import { signOut } from '../../services/auth';
 import './Header.css';
 import {
-  Box,
   Flex,
   Text,
   Menu,
