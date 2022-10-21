@@ -78,7 +78,7 @@ export default function SidePanel({ trip, setTrip, legs }) {
           size="lg"
           paddingBottom="6px"
           borderBottom="3px solid #006D77"
-          width="75%"
+          width="210px"
         >{trip?.title}</Heading>
         {trip && <Popover placement='right'>
           <PopoverTrigger>
