@@ -40,7 +40,7 @@ export default function AboutPage() {
         <Text
           className="brand title"
           textAlign="center"
-          marginY="40px"
+          marginY="25px"
         >
           ABOUT US
         </Text>
