@@ -1,10 +1,11 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import { signOut } from '../../services/auth';
 import './Header.css';
 import {
+  Box,
   Flex,
   Text,
   Menu,
@@ -34,20 +35,26 @@ export default function Header({ navLinks = [] }) {
   return (
     <header>
       <Flex
-        padding="10px"
         backgroundColor="#319795"
         justifyContent="space-between"
         alignItems="center"
         color="white"
       >
-        <Link to="/">
-          <Text fontSize="3xl" fontWeight="bold">Tally Ho!</Text>
-        </Link>
+        <Box>
+          <span className="header-container">
+            <img id="logo" src={ process.env.PUBLIC_URL + '/logo.png' } style={ {
+              height: '10',
+              width: '10'
+            } } alt="logo" />
+            <Text fontSize="3xl" className="brand" id="tally-ho" fontWeight="bold">TALLYHO!</Text>
+          </span>
+        </Box>
+
         { user && (
 
           <Menu>
             <MenuButton>
-              <HamburgerIcon w={8} h={8}></HamburgerIcon>
+              <HamburgerIcon marginRight="25px" w={35} h={35}></HamburgerIcon>
             </MenuButton>
             <MenuList color="teal">
               <MenuGroup title="Navigation">

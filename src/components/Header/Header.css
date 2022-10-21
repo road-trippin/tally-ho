@@ -1,6 +1,26 @@
 .header-container {
     display: flex;
     flex-direction: row;
-    
+    align-items: center;
+    position: relative;
+
+
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+    height: 45px;
+    align-items: center;
+    color: #fff;
+    margin-left:25px;
+}
+
+#tally-ho {
+
+    font-size: 50px;
+    font-weight: 400;
+    align-items: center;
+    margin-left: 10px;
 
 }
