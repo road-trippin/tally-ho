@@ -41,10 +41,8 @@ export default function HomePage() {
     <>
       <Header
         navLinks={[
-          {
-            text: 'New Trip',
-            path: '/new-trip',
-          },
+          { text: 'New Trip', path: '/new-trip' },
+          { text: 'About', path: '/about' }
         ]}
       />
 

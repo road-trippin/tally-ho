@@ -1,4 +1,4 @@
-import { AddIcon, EditIcon } from '@chakra-ui/icons';
+import { AddIcon, SettingsIcon } from '@chakra-ui/icons';
 import { Checkbox, CheckboxGroup, Flex, FormControl, Heading, IconButton, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Stack } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { useUserContext } from '../../context/UserContext';
@@ -71,7 +71,7 @@ export default function SidePanel({ trip, setTrip, legs }) {
       boxShadow="dark-lg"
       rounded="xl"
     >
-      <Flex align="center">
+      <Flex align="center" paddingLeft="10px" paddingRight="10px">
         <Heading
           textAlign="center"
           m="16px"
@@ -79,9 +79,9 @@ export default function SidePanel({ trip, setTrip, legs }) {
           paddingBottom="6px"
           borderBottom="3px solid #006D77"
         >{trip?.title}</Heading>
-        <Popover placement='right'>
+        {trip && <Popover placement='right'>
           <PopoverTrigger>
-            <IconButton icon={<EditIcon />}></IconButton>
+            <IconButton icon={<SettingsIcon />} variant="outline"></IconButton>
           </PopoverTrigger>
           <PopoverContent>
             <PopoverArrow />
@@ -96,7 +96,7 @@ export default function SidePanel({ trip, setTrip, legs }) {
               </CheckboxGroup>
             </PopoverBody>
           </PopoverContent>
-        </Popover>
+        </Popover> }
       </Flex>
       {showLoader || !trip ? <Loader></Loader>
         :
