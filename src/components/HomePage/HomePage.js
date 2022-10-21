@@ -1,13 +1,15 @@
 import Header from '../Header/Header';
-import { Box, Button, Flex, Heading, IconButton, Image, Stack, Text } from '@chakra-ui/react';
+import Loader from '../Loader/Loader';
+import { Box, Button, Flex, Heading, IconButton, Stack, Text } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import useTrips from '../../hooks/useTrips';
 import { deleteTrip, deleteTripWaypoints } from '../../services/trips';
 import { useState } from 'react';
-import homeVan from '../../homeVan.jpg';
+import backgroundImage from '../../homeVan.jpg';
 import 'animate.css';
+import './HomePage.css';
 
 export default function HomePage() {
   const { user } = useUserContext();
@@ -45,67 +47,58 @@ export default function HomePage() {
       />
 
       {loading ? (
-        <p>loading...</p>
+        <Loader />
       ) : (
-        <div>
-          <Flex
-            align="center"
-            justify={{ base: 'center', md: 'space-around', xl: 'space-between' }}
-            direction={{ base: 'column-reverse', md: 'row' }}
-            wrap="no-wrap"
-            minH="70vh"
-            px={8}
-            mb={16}
-            ml={55}
-            mr={55}
-          >
-            <Stack
-              spacing={4}
-              w={{ base: '80%', md: '40%' }}
-              align={['center', 'center', 'flex-start', 'flex-start']}
-            >
-              <Heading
-                className="animate__animated animate__lightSpeedInLeft"
-                as="h1"
-                size="xl"
-                fontWeight="bold"
-                color="#006D77"
-                textAlign={['center', 'center', 'flex-start', 'flex-start']}
-              >
-                Time to Hit the Road!
-              </Heading>
-              <Heading
-                as="h2"
-                size="md"
-                color="#FD9834"
-                opacity="0.8"
-                fontWeight="bold"
-                lineHeight={1.5}
-                textAlign={['center', 'center', 'flex-start', 'flex-start']}
-              >
-                Your Saved Trips:
-              </Heading>
+        <Flex
+          backgroundImage={backgroundImage}
+          backgroundSize="cover"
+          backgroundPosition="bottom-left"
+          justifyContent="center"
+        >
+          <Flex alignContent="center" justifyContent="space-around">
+            <Flex direction="column" alignItems="center">
+              <span className="animate__animated animate__lightSpeedInLeft brand note">
+                TIME TO HIT THE ROAD!
+              </span>
               <Box
                 marginX="auto"
-                boxShadow="2xl"
+                boxShadow="dark-lg"
                 rounded="1rem"
                 padding="30px"
                 minWidth="400px"
                 w={{ base: '80%', sm: '60%', md: '50%' }}
                 mb={{ base: 12, md: 0 }}
+                backgroundColor="white"
+                height="400px"
+                marginTop="60px"
               >
-                <Stack spacing={5}>
+                <Flex justifyContent="center">
+                  <Heading
+                    as="h1"
+                    size="lg"
+                    color="#FD9834"
+                    opacity="0.8"
+                    fontWeight="bold"
+                    lineHeight={1.5}
+                    borderBottom="3px solid #006D77"
+                    paddingBottom="10px"
+                    marginBottom="15px"
+                  >
+                    Your Saved Trips:
+                  </Heading>
+                </Flex>
+                <Stack spacing={5} backgroundColor="white">
                   {trips.length > 0 ? (
                     trips.map((trip) => (
                       <Flex key={trip.id} justify="space-between">
                         <Button
                           variant="ghost"
                           colorScheme="teal"
+                          size="lg"
                           onClick={() => handleEditTrip(trip.id)}
                         >
                           {trip.title}
                         </Button>
-
                         <IconButton
                           aria-label="Delete Item"
                           icon={<DeleteIcon />}
@@ -121,19 +114,24 @@ export default function HomePage() {
                     </Flex>
                   )}
                 </Stack>
+                <Flex justifyContent="center" marginTop="20px">
+                  <Link to="/new-trip">
+                    <Button
+                      variant="solid"
+                      shadow="2xl"
+                      colorScheme="teal"
+                      marginY="20px"
+                      size="lg"
+                    >
+                      Create a New Trip
+                    </Button>
+                  </Link>
+                </Flex>
               </Box>
               <span>{deleteMessage}</span>
-              <Link to="/new-trip">
-                <Button variant="solid" shadow="2xl" colorScheme="teal" marginY="20px" size="lg">
-                  Create a New Trip
-                </Button>
-              </Link>
-            </Stack>
-            <Box w={{ base: '80%', sm: '60%', md: '50%' }} mb={{ base: 12, md: 0 }}>
-              <Image src={homeVan} size="100%" rounded="1rem" shadow="2xl" />
-            </Box>
+            </Flex>
           </Flex>
-        </div>
+        </Flex>
       )}
     </>
   );
