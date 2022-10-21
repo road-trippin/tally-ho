@@ -41,7 +41,7 @@ export default function Header({ navLinks = [] }) {
       >
         <Link to='/'>
           <span className="header-container">
-            <img id="logo" src={ process.env.PUBLIC_URL + '/logo.png' } style={ {
+            <img id="logo" src={ process.env.PUBLIC_URL + '/logo192.png' } style={ {
               height: '10',
               width: '10'
             } } alt="logo" />
