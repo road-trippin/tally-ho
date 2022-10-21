@@ -46,7 +46,7 @@ export default function Header({ navLinks = [] }) {
               height: '50',
               width: '50'
             } } alt="logo" />
-            <Text fontSize="3xl" className="brand" id="tally-ho" fontWeight="bold">Tally Ho!</Text>
+            <Text fontSize="3xl" className="brand" id="tally-ho" fontWeight="bold">TALLYHO!</Text>
           </span>
         </Box>
 
@@ -54,7 +54,7 @@ export default function Header({ navLinks = [] }) {
 
           <Menu>
             <MenuButton>
-              <HamburgerIcon w={8} h={8}></HamburgerIcon>
+              <HamburgerIcon w={35} h={35}></HamburgerIcon>
             </MenuButton>
             <MenuList color="teal">
               <MenuGroup title="Navigation">
