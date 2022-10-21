@@ -71,17 +71,18 @@ export default function SidePanel({ trip, setTrip, legs }) {
       boxShadow="dark-lg"
       rounded="xl"
     >
-      <Flex align="center" paddingLeft="10px" paddingRight="10px">
+      <Flex align="center" justify="center" paddingRight="10px">
         <Heading
           textAlign="center"
           m="16px"
           size="lg"
           paddingBottom="6px"
           borderBottom="3px solid #006D77"
+          width="75%"
         >{trip?.title}</Heading>
         {trip && <Popover placement='right'>
           <PopoverTrigger>
-            <IconButton icon={<SettingsIcon />} variant="outline"></IconButton>
+            <IconButton icon={<SettingsIcon />} variant="outline" position="absolute" right="8px"></IconButton>
           </PopoverTrigger>
           <PopoverContent>
             <PopoverArrow />
