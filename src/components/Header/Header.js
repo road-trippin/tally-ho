@@ -1,6 +1,6 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useUserContext } from '../../context/UserContext';
 import { signOut } from '../../services/auth';
 import './Header.css';
@@ -40,7 +40,7 @@ export default function Header({ navLinks = [] }) {
         alignItems="center"
         color="white"
       >
-        <Box>
+        <Link to='/'>
           <span className="header-container">
             <img id="logo" src={ process.env.PUBLIC_URL + '/logo.png' } style={ {
               height: '10',
@@ -48,7 +48,7 @@ export default function Header({ navLinks = [] }) {
             } } alt="logo" />
             <Text fontSize="3xl" className="brand" id="tally-ho" fontWeight="bold">TALLYHO!</Text>
           </span>
-        </Box>
+        </Link>
 
         { user && (
 
