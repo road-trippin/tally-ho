@@ -1,8 +1,8 @@
-import { AddIcon, SettingsIcon } from '@chakra-ui/icons';
+import { AddIcon, RepeatIcon, SettingsIcon } from '@chakra-ui/icons';
 import { Checkbox, CheckboxGroup, Flex, FormControl, Heading, IconButton, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Stack } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { useUserContext } from '../../context/UserContext';
-import { createWaypoint, updateTrip, updateWaypoints } from '../../services/trips';
+import { createWaypoint, deleteWaypoint, updateTrip, updateWaypoints } from '../../services/trips';
 import PlaceInput from '../PlaceInput/PlaceInput';
 import TripNotes from '../TripNotes/TripNotes';
 import WaypointList from '../WaypointList/WaypointList';
@@ -59,6 +59,13 @@ export default function SidePanel({ trip, setTrip, legs }) {
     placeInputRef.current.clear();
   };
 
+  const handleResetWaypoints = () => {
+    const waypoints = trip.waypoints.slice(1, -1);
+    waypoints.forEach(async (w) => await deleteWaypoint(w.id));
+    const clearedWaypoints = trip.waypoints.filter((w) => !waypoints.includes(w));
+    setTrip({ ...trip, waypoints: clearedWaypoints });
+  };
+
   return (
     <Flex left="30px"
       top="10%"
@@ -72,6 +79,7 @@ export default function SidePanel({ trip, setTrip, legs }) {
       rounded="xl"
     >
       <Flex align="center" justify="center" paddingRight="10px">
+        <IconButton icon={<RepeatIcon />} variant="outline" position="absolute" left="8px" title="Remove All Stops" onClick={handleResetWaypoints} />
         <Heading
           textAlign="center"
           m="16px"
