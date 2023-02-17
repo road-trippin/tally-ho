@@ -31,25 +31,27 @@ export default function WaypointList({ trip, setTrip, legs }) {
   };
 
   const getTotalTime = () => {
-    const times = legs.reduce((a, b) => {
-      a.push(b.duration.text);
-      return a;
-    }, []);
-    let hours = times.map(t => {
-      if (!t.includes('day')) return Number(t.split(' ')[0]);
-      return Number(t.split(' ')[0]) * 24 + Number(t.split(' ')[2]);
-    })
-      .reduce((a, b) => a + b, 0);
-    let minutes = times.map(t => {
-      if (!t.includes('day')) return Number(t.split(' ')[2]);
-      return 0;
-    })
-      .reduce((a, b) => a + b, 0);
-
-    hours += Math.floor(minutes / 60);
-    minutes %= 60;
-
-    return minutes ? `${hours} hrs ${minutes} mins` : `${hours} hrs`;
+    const timeData = legs.reduce((acc, leg) => {
+      const splitDuration = leg.duration.text.split(' ');
+      if (!splitDuration.includes('hrs')) {
+        acc.minutes += Number(splitDuration[0]);
+        return acc;
+      }
+      if (!splitDuration.includes('day')) {
+        acc.hours += Number(splitDuration[0]);
+        acc.minutes += Number(splitDuration[2]);
+      } else {
+        acc.hours += Number(splitDuration[0]) * 24 + Number(splitDuration[2]);
+      }
+      return acc;
+    }, { hours: 0, minutes: 0 });
+  
+    timeData.hours += Math.floor(timeData.minutes / 60);
+    timeData.minutes %= 60;
+  
+    return timeData.minutes > 0 ? 
+      `${timeData.hours} hrs ${timeData.minutes} mins` : 
+      `${timeData.hours} hrs`;
   };
 
   if (legs !== prevLegs) {
