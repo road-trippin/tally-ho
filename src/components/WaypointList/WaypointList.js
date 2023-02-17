@@ -11,29 +11,23 @@ export default function WaypointList({ trip, setTrip, legs }) {
   const [randomKey, setRandomKey] = useState(0);
 
   const getTotalDistance = () => {
-    const miles = legs.reduce((a, b) => {
-      a.push(b.distance.text);
-      return a;
-    }, [])
-      .map(d => Number(d.split(' ')[0].replace(',', '')))
-      .reduce((a, b) => a + b, 0)
+    const miles = legs.reduce((sum, leg) => {
+      return sum + Number(
+        leg.distance.text
+          .split(' ')[0]
+          .replace(',', '')
+      );
+    }, 0)
       .toString();
-
-    let stringifiedMiles = '';
-
-    if (!miles.includes('.')) {
-      stringifiedMiles = miles.length > 3 ?
-        [miles.slice(0, miles.length - 3), ',', miles.slice(miles.length - 3)].join('')
-        : miles;
-    } else {
-      const splitMiles = miles.split('.');
-      const intMiles = splitMiles[0];
-      const formattedIntMiles = intMiles.length > 3 ?
-        [intMiles.slice(0, intMiles.length - 3), ',', intMiles.slice(intMiles.length - 3)].join('')
-        : intMiles;
-      stringifiedMiles = [formattedIntMiles, '.', splitMiles[1]].join('');
+  
+    const decimalIndex = miles.indexOf('.');
+    let formattedMiles = '';
+    if (decimalIndex > 3) {
+      formattedMiles = miles.slice(0, decimalIndex - 3) + ',' + miles.slice(decimalIndex - 3);
+    } else if (decimalIndex === -1 && miles.length > 3) {
+      formattedMiles = miles.slice(0, miles.length - 3) + ',' + miles.slice(miles.length - 3);
     }
-    return `${stringifiedMiles} mi`;
+    return `${formattedMiles} mi`;
   };
 
   const getTotalTime = () => {
