@@ -39,7 +39,7 @@ export default function WaypointList({ trip, setTrip, legs }) {
     // and reduce into object containing the total hours and minutes
     const timeData = legs.reduce((acc, leg) => {
       const splitDuration = leg.duration.text.split(' ');
-      if (!splitDuration.includes('hrs')) {
+      if (!splitDuration.includes('hours')) {
         acc.minutes += Number(splitDuration[0]);
         return acc;
       }
