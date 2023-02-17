@@ -11,6 +11,8 @@ export default function WaypointList({ trip, setTrip, legs }) {
   const [randomKey, setRandomKey] = useState(0);
 
   const getTotalDistance = () => {
+    // get total miles from all legs of the trip
+    // need to remove comma to allow for conversion to number
     const miles = legs.reduce((sum, leg) => {
       return sum + Number(
         leg.distance.text
@@ -20,8 +22,10 @@ export default function WaypointList({ trip, setTrip, legs }) {
     }, 0)
       .toString();
   
+    // add comma back in for display to user
     const decimalIndex = miles.indexOf('.');
     let formattedMiles = '';
+    // use decimal location to determine if total is > 1000, add in comma accordingly
     if (decimalIndex > 3) {
       formattedMiles = miles.slice(0, decimalIndex - 3) + ',' + miles.slice(decimalIndex - 3);
     } else if (decimalIndex === -1 && miles.length > 3) {
@@ -31,6 +35,8 @@ export default function WaypointList({ trip, setTrip, legs }) {
   };
 
   const getTotalTime = () => {
+    // parse out the days, hours, and minutes for each leg of trip 
+    // and reduce into object containing the total hours and minutes
     const timeData = legs.reduce((acc, leg) => {
       const splitDuration = leg.duration.text.split(' ');
       if (!splitDuration.includes('hrs')) {
@@ -54,6 +60,8 @@ export default function WaypointList({ trip, setTrip, legs }) {
       `${timeData.hours} hrs`;
   };
 
+  // the key property on the Draggable component was only triggering a remount 
+  // if a change in the value of legs was used to trigger a change in a random key
   if (legs !== prevLegs) {
     setPrevLegs(legs);
     setRandomKey(Math.random());
