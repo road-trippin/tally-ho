@@ -11,53 +11,57 @@ export default function WaypointList({ trip, setTrip, legs }) {
   const [randomKey, setRandomKey] = useState(0);
 
   const getTotalDistance = () => {
-    const miles = legs.reduce((a, b) => {
-      a.push(b.distance.text);
-      return a;
-    }, [])
-      .map(d => Number(d.split(' ')[0].replace(',', '')))
-      .reduce((a, b) => a + b, 0)
+    // get total miles from all legs of the trip
+    // need to remove comma to allow for conversion to number
+    const miles = legs.reduce((sum, leg) => {
+      return sum + Number(
+        leg.distance.text
+          .split(' ')[0]
+          .replace(',', '')
+      );
+    }, 0)
       .toString();
-
-    let stringifiedMiles = '';
-
-    if (!miles.includes('.')) {
-      stringifiedMiles = miles.length > 3 ?
-        [miles.slice(0, miles.length - 3), ',', miles.slice(miles.length - 3)].join('')
-        : miles;
-    } else {
-      const splitMiles = miles.split('.');
-      const intMiles = splitMiles[0];
-      const formattedIntMiles = intMiles.length > 3 ?
-        [intMiles.slice(0, intMiles.length - 3), ',', intMiles.slice(intMiles.length - 3)].join('')
-        : intMiles;
-      stringifiedMiles = [formattedIntMiles, '.', splitMiles[1]].join('');
+  
+    // add comma back in for display to user
+    const decimalIndex = miles.indexOf('.');
+    let formattedMiles = '';
+    // use decimal location to determine if total is > 1000, add in comma accordingly
+    if (decimalIndex > 3) {
+      formattedMiles = miles.slice(0, decimalIndex - 3) + ',' + miles.slice(decimalIndex - 3);
+    } else if (decimalIndex === -1 && miles.length > 3) {
+      formattedMiles = miles.slice(0, miles.length - 3) + ',' + miles.slice(miles.length - 3);
     }
-    return `${stringifiedMiles} mi`;
+    return `${formattedMiles} mi`;
   };
 
   const getTotalTime = () => {
-    const times = legs.reduce((a, b) => {
-      a.push(b.duration.text);
-      return a;
-    }, []);
-    let hours = times.map(t => {
-      if (!t.includes('day')) return Number(t.split(' ')[0]);
-      return Number(t.split(' ')[0]) * 24 + Number(t.split(' ')[2]);
-    })
-      .reduce((a, b) => a + b, 0);
-    let minutes = times.map(t => {
-      if (!t.includes('day')) return Number(t.split(' ')[2]);
-      return 0;
-    })
-      .reduce((a, b) => a + b, 0);
-
-    hours += Math.floor(minutes / 60);
-    minutes %= 60;
-
-    return minutes ? `${hours} hrs ${minutes} mins` : `${hours} hrs`;
+    // parse out the days, hours, and minutes for each leg of trip 
+    // and reduce into object containing the total hours and minutes
+    const timeData = legs.reduce((acc, leg) => {
+      const splitDuration = leg.duration.text.split(' ');
+      if (!splitDuration.includes('hrs')) {
+        acc.minutes += Number(splitDuration[0]);
+        return acc;
+      }
+      if (!splitDuration.includes('day')) {
+        acc.hours += Number(splitDuration[0]);
+        acc.minutes += Number(splitDuration[2]);
+      } else {
+        acc.hours += Number(splitDuration[0]) * 24 + Number(splitDuration[2]);
+      }
+      return acc;
+    }, { hours: 0, minutes: 0 });
+  
+    timeData.hours += Math.floor(timeData.minutes / 60);
+    timeData.minutes %= 60;
+  
+    return timeData.minutes > 0 ? 
+      `${timeData.hours} hrs ${timeData.minutes} mins` : 
+      `${timeData.hours} hrs`;
   };
 
+  // the key property on the Draggable component was only triggering a remount 
+  // if a change in the value of legs was used to trigger a change in a random key
   if (legs !== prevLegs) {
     setPrevLegs(legs);
     setRandomKey(Math.random());
