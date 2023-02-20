@@ -24,7 +24,7 @@ export default function WaypointList({ trip, setTrip, legs }) {
   
     // add comma back in for display to user
     const decimalIndex = miles.indexOf('.');
-    let formattedMiles = '';
+    let formattedMiles = miles;
     // use decimal location to determine if total is > 1000, add in comma accordingly
     if (decimalIndex > 3) {
       formattedMiles = miles.slice(0, decimalIndex - 3) + ',' + miles.slice(decimalIndex - 3);
@@ -35,19 +35,17 @@ export default function WaypointList({ trip, setTrip, legs }) {
   };
 
   const getTotalTime = () => {
-    // parse out the days, hours, and minutes for each leg of trip 
-    // and reduce into object containing the total hours and minutes
     const timeData = legs.reduce((acc, leg) => {
-      const splitDuration = leg.duration.text.split(' ');
-      if (!splitDuration.includes('hours')) {
-        acc.minutes += Number(splitDuration[0]);
-        return acc;
-      }
-      if (!splitDuration.includes('day')) {
-        acc.hours += Number(splitDuration[0]);
-        acc.minutes += Number(splitDuration[2]);
-      } else {
-        acc.hours += Number(splitDuration[0]) * 24 + Number(splitDuration[2]);
+      // split duration text by every other space to get data like so:
+      // ["1 day", "3 hours", "24 mins"]
+      const splitDuration = leg.duration.text.split(/\s(?=\d{1,2} )/);
+      for (const time of splitDuration) {
+        if (/days?/.test(time)) 
+          acc.hours += Number(time.split(' ')[0]) * 24;
+        if (/hours?/.test(time))
+          acc.hours += Number(time.split(' ')[0]);
+        if (/mins?/.test(time))
+          acc.minutes += Number(time.split(' ')[0]);
       }
       return acc;
     }, { hours: 0, minutes: 0 });
